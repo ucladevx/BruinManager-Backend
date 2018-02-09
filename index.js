@@ -18,7 +18,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 const app = express();
 app.use(bodyParser.json())
 
-app.get('/hi', function(req, res) {
+app.get('https://git.heroku.com/arcane-cove-10079.git/hi', function(req, res) {
 	res.send("hello");
 })
 
