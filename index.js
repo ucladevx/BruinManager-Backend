@@ -18,7 +18,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 const app = express();
 app.use(bodyParser.json())
 
-app.get('/', function(req, res) {
+app.get('/hi', function(req, res) {
 	res.send("hello");
 })
 
