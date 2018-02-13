@@ -14,7 +14,7 @@ const Person = mongoose.model('Person')
 
 // var CONTACTS_COLLECTION = "contacts";
 
-connect to mLabs database
+// connect to mLabs database
 mongoose.connect(keys.mongoURI);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
