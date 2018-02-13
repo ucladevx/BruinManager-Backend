@@ -51,6 +51,7 @@ app.get('/create/:name', function(req, res) {
 		age: 5
 	});
 	p.save();
+	res.send("created a person");
 })
 
 app.listen(process.env.PORT || 3000, () => {
