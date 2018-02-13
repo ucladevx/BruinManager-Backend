@@ -2,7 +2,6 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 var path = require("path");
-// var ObjectID = mongodb.ObjectID;
 
 //get key for mLab
 const keys = require('./config/keys')
@@ -24,25 +23,6 @@ var app = express();
 // app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 
-// var db;
-
-// mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
-//   if (err) {
-//     console.log(err);
-//     process.exit(1);
-//   }
-
-//   // Save database object from the callback for reuse.
-//   db = database;
-//   console.log("Database connection ready");
-
-//   // Initialize the app.
-//   var server = app.listen(process.env.PORT || 8080, function () {
-//     var port = server.address().port;
-//     console.log("App now running on port", port);
-//   });
-// });
-
 // app.post("/contacts", function(req, res) {
 //   var newContact = req.body;
 //   newContact.createDate = new Date();
@@ -60,8 +40,17 @@ app.use(bodyParser.json());
 //   });
 // });
 
-app.get('/hi', function(req, res) {
-	res.send("hello");
+app.get('/', function(req, res) {
+	res.send("hello, welcome to BruinManager");
+})
+
+app.get('/create/:name', function(req, res) {
+	// console.log(req.params.name);
+	var p = new Person({
+		name: req.params.name,
+		age: 5
+	});
+	p.save();
 })
 
 app.listen(process.env.PORT || 3000, () => {
