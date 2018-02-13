@@ -60,10 +60,6 @@ app.use(bodyParser.json());
 //   });
 // });
 
-
-const app = express();
-app.use(bodyParser.json())
-
 app.get('/hi', function(req, res) {
 	res.send("hello");
 })
