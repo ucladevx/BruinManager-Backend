@@ -4,14 +4,19 @@ const mongoose = require('mongoose');
 var path = require("path");
 
 //get key for mLab
-const keys = require('./config/keys')
+const keys = require('./config/keys');
 // defined in heroku environment
 
 // get schema defined in model
 // require('./models/db1')
-require('./models/db')
+require('./models/db');
+require('./models/class');
+require('./models/enrollment');
 
-const Person = mongoose.model('Person')
+// const Person = mongoose.model('Person');
+const userSchema = mongoose.model('userSchema');
+const classSchema = mongoose.model('classSchema');
+const enrollmentSchema = mongoose.model('enrollmentSchema');
 
 // connect to mLabs database
 mongoose.connect(keys.mongoURI);
@@ -33,34 +38,31 @@ app.get('/create/:name', function(req, res) {
 	// 	name: req.params.name,
 	// 	age: 5
 	// });
-	var p = {
-		name: "taasin",
-		classes: {
-			{
-				discussion: {
-			        days : "a",
-			        instructor : "b",
-			        location : "c",
-			        section : "d",
-			        status : "e",
-			        time : "f",
-			        waitlist_status : "g"
-		    	},
-				lecture: {
-			        days : "f",
-			        instructor : "g",
-			        location : "h",
-			        name : "i",
-			        section : "j",
-			        status : "k",
-			        time : "l",
-			       	units : "m",
-			        waitlist_status : "n"
-    			}
-			}
-		},
-		enrollment:{
-			{
+
+	var seedClass = new classSchema({
+			discussion: {
+			       days : "a",
+			       instructor : "b",
+			       location : "c",
+			       section : "d",
+			       status : "e",
+			       time : "f",
+			       waitlist_status : "g"
+		    },
+			lecture: {
+			       days : "f",
+			       instructor : "g",
+			       location : "h",
+			       name : "i",
+			       section : "j",
+			       status : "k",
+			       time : "l",
+			       units : "m",
+			       waitlist_status : "n"
+    		}
+	});
+
+	var seedEnrollment = new enrollmentSchema({
 				first_pass: {
 			        end : "o",
 			        start : "p",
@@ -72,9 +74,13 @@ app.get('/create/:name', function(req, res) {
 			        start : "s",
 			        units : "t"
 			    }
-			}
-		}
-	}
+	});
+
+	var p = new userSchema({
+		name: "taasin",
+		classes: {seedClass},
+		enrollment:{seedEnrollment}
+	});
 	p.save();
 	res.send("created a seed user");
 })
