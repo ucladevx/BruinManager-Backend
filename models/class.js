@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
+const { Schema } = mongoose
+// var Schema = mongoose.Schema;
 
-var Schema = mongoose.Schema;
-
-var classSchema = new Schema({
+const classSchema = new Schema({
     discussion: {
         type: String,
         required: true,
@@ -77,4 +77,5 @@ var classSchema = new Schema({
     }
 });
 
-modules.exports = classSchema;
+// modules.exports = classSchema;
+mongoose.model('classSchema', classSchema);

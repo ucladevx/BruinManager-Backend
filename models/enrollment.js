@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
+const { Schema } = mongoose
 
-var Schema = mongoose.Schema;
+// var Schema = mongoose.Schema;
 
 var enrollmentSchema = new Schema({
     first_pass: {
@@ -38,4 +39,5 @@ var enrollmentSchema = new Schema({
     }
 });
 
-modules.exports = enrollmentSchema;
+// modules.exports = enrollmentSchema;
+mongoose.model('enrollmentSchema', enrollmentSchema);
