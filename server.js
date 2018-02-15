@@ -39,28 +39,28 @@ app.get('/create/', function(req, res) {
 	// 	age: 5
 	// });
 
-	// var seedClass = new classSchema({
-	// 		discussion: {
-	// 		       days : "a",
-	// 		       instructor : "b",
-	// 		       location : "c",
-	// 		       section : "d",
-	// 		       status : "e",
-	// 		       time : "f",
-	// 		       waitlist_status : "g"
-	// 	    },
-	// 		lecture: {
-	// 		       days : "f",
-	// 		       instructor : "g",
-	// 		       location : "h",
-	// 		       name : "i",
-	// 		       section : "j",
-	// 		       status : "k",
-	// 		       time : "l",
-	// 		       units : "m",
-	// 		       waitlist_status : "n"
- //    		}
-	// });
+	var seedClass = new classSchema({
+			discussion: {
+			       days : "a",
+			       instructor : "b",
+			       location : "c",
+			       section : "d",
+			       status : "e",
+			       time : "f",
+			       waitlist_status : "g"
+		    },
+			lecture: {
+			       days : "f",
+			       instructor : "g",
+			       location : "h",
+			       name : "i",
+			       section : "j",
+			       status : "k",
+			       time : "l",
+			       units : "m",
+			       waitlist_status : "n"
+    		}
+	});
 
 	// // seedClass.save();
 
@@ -78,14 +78,15 @@ app.get('/create/', function(req, res) {
 			    }
 	});
 
-	seedEnrollment.save();
+	// seedEnrollment.save();
 
-	// var p = new userSchema({
-	// 	name: "taasin",
-	// 	classes: {seedClass},
-	// 	enrollment:{seedEnrollment}
-	// });
-	// p.save();
+	var p = new userSchema({
+		name: "taasin",
+		classes: {seedClass},
+		enrollment:{seedEnrollment}
+	});
+	p.save();
+	
 	res.send("created a seed user");
 })
 
