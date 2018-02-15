@@ -1,7 +1,7 @@
 {
   "name": "bm",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.1.0",
+  "description": "API for BruinManager",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

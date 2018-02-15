@@ -1,9 +1,17 @@
-const mongoose = require('mongoose')
-const { Schema } = mongoose
+var mongoose = require('mongoose');
 
-const personSchema = new Schema({
-    name: String,
-    age: Number
-})
+//Require schemas 
+var classSchema = require('./class');
+var enrollmentSchema = require('./enrollment');
 
-mongoose.model('Person', personSchema)
+var Schema = mongoose.Schema;
+
+var userSchema = new Schema({
+	//Optional name field
+	name: {type: String, required: true},
+	classes: {type: [classSchema], required: true},
+	enrollment: {type: [enrollmentSchema], required: true },
+});
+
+
+mongoose.model('userSchema', userSchema)
