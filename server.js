@@ -39,44 +39,46 @@ app.get('/create/', function(req, res) {
 	// 	age: 5
 	// });
 
-	var seedClass = new classSchema({
-			discussion: {
-			       days : "a",
-			       instructor : "b",
-			       location : "c",
-			       section : "d",
-			       status : "e",
-			       time : "f",
-			       waitlist_status : "g"
-		    },
-			lecture: {
-			       days : "f",
-			       instructor : "g",
-			       location : "h",
-			       name : "i",
-			       section : "j",
-			       status : "k",
-			       time : "l",
-			       units : "m",
-			       waitlist_status : "n"
-    		}
+	// var seedClass = new classSchema({
+	// 		discussion: {
+	// 		       days : "a",
+	// 		       instructor : "b",
+	// 		       location : "c",
+	// 		       section : "d",
+	// 		       status : "e",
+	// 		       time : "f",
+	// 		       waitlist_status : "g"
+	// 	    },
+	// 		lecture: {
+	// 		       days : "f",
+	// 		       instructor : "g",
+	// 		       location : "h",
+	// 		       name : "i",
+	// 		       section : "j",
+	// 		       status : "k",
+	// 		       time : "l",
+	// 		       units : "m",
+	// 		       waitlist_status : "n"
+ //    		}
+	// });
+
+	// // seedClass.save();
+
+	var seedEnrollment = new enrollmentSchema({
+				first_pass: {
+			        end : "o",
+			        start : "p",
+			        units : "q",
+			    },
+
+			    second_pass: {
+			        end : "r",
+			        start : "s",
+			        units : "t"
+			    }
 	});
 
-	seedClass.save();
-
-	// var seedEnrollment = new enrollmentSchema({
-	// 			first_pass: {
-	// 		        end : "o",
-	// 		        start : "p",
-	// 		        units : "q",
-	// 		    },
-
-	// 		    second_pass: {
-	// 		        end : "r",
-	// 		        start : "s",
-	// 		        units : "t"
-	// 		    }
-	// });
+	seedEnrollment.save();
 
 	// var p = new userSchema({
 	// 	name: "taasin",

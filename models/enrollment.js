@@ -5,8 +5,8 @@ const { Schema } = mongoose
 
 var enrollmentSchema = new Schema({
     first_pass: {
-        type: String,
-        required: true,
+        // type: String,
+        // required: true,
         end : {
         	required: true,
         	type: String
@@ -22,8 +22,8 @@ var enrollmentSchema = new Schema({
     },
 
     second_pass: {
-        type: String,
-        required: true,
+        // type: String,
+        // required: true,
         end : {
         	required: true,
         	type: String
