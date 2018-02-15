@@ -32,7 +32,7 @@ app.get('/', function(req, res) {
 })
 
 // save schema to mLabs
-app.get('/create/:name', function(req, res) {
+app.get('/create/', function(req, res) {
 	// console.log(req.params.name);
 	// var p = new Person({
 	// 	name: req.params.name,
@@ -62,26 +62,28 @@ app.get('/create/:name', function(req, res) {
     		}
 	});
 
-	var seedEnrollment = new enrollmentSchema({
-				first_pass: {
-			        end : "o",
-			        start : "p",
-			        units : "q",
-			    },
+	seedClass.save();
 
-			    second_pass: {
-			        end : "r",
-			        start : "s",
-			        units : "t"
-			    }
-	});
+	// var seedEnrollment = new enrollmentSchema({
+	// 			first_pass: {
+	// 		        end : "o",
+	// 		        start : "p",
+	// 		        units : "q",
+	// 		    },
 
-	var p = new userSchema({
-		name: "taasin",
-		classes: {seedClass},
-		enrollment:{seedEnrollment}
-	});
-	p.save();
+	// 		    second_pass: {
+	// 		        end : "r",
+	// 		        start : "s",
+	// 		        units : "t"
+	// 		    }
+	// });
+
+	// var p = new userSchema({
+	// 	name: "taasin",
+	// 	classes: {seedClass},
+	// 	enrollment:{seedEnrollment}
+	// });
+	// p.save();
 	res.send("created a seed user");
 })
 
