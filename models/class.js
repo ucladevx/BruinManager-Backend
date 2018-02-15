@@ -4,8 +4,9 @@ const { Schema } = mongoose
 
 const classSchema = new Schema({
     discussion: {
-        type: String,
-        required: true,
+        // type: String,
+        // required: true,
+        
         days : {
         	required: true,
         	type: String
@@ -36,8 +37,9 @@ const classSchema = new Schema({
         },
     },
     lecture: {
-        type: String,
-        required: true,
+        // type: String,
+        // required: true,
+
         days : {
         	required: true,
         	type: String
