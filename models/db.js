@@ -7,7 +7,7 @@ var enrollmentSchema = require('./enrollment');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-	//Optional name field
+	//username
 	name: {type: String, required: true},
 	classes: {type: [classSchema], required: true},
 	enrollment: {type: [enrollmentSchema], required: true },

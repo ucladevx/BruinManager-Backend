@@ -31,6 +31,10 @@ app.get('/', function(req, res) {
 	res.send("hello, welcome to BruinManager");
 })
 
+app.get('/saveData', function(req, res){
+	res.send(req);
+})
+
 // save schema to mLabs
 app.get('/create/', function(req, res) {
 	// console.log(req.params.name);
