@@ -26,13 +26,15 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 var app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.get('/', function(req, res) {
 	res.send("hello, welcome to BruinManager");
 })
 
-app.get('/saveData', function(req, res){
-	res.send(req);
+app.post('/user', function(req, res){
+	var p = req.body.user;
+	p.save();
 })
 
 // save schema to mLabs
