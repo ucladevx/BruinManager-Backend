@@ -45,8 +45,6 @@ app.get('/create', function(req, res) {
 	// 	age: 5
 	// });
 
-	console.log(req);
-
 	var seedClass = new classSchema({
 			discussion: {
 			       days : "a",
@@ -95,7 +93,8 @@ app.get('/create', function(req, res) {
 	});
 	p.save();
 	
-	res.send("created a seed user");
+	// res.send("created a seed user");
+	res.send(req);
 })
 
 app.listen(process.env.PORT || 3000, () => {
