@@ -38,12 +38,14 @@ app.post('/user', function(req, res){
 })
 
 // save schema to mLabs
-app.get('/create/', function(req, res) {
+app.get('/create', function(req, res) {
 	// console.log(req.params.name);
 	// var p = new Person({
 	// 	name: req.params.name,
 	// 	age: 5
 	// });
+
+	console.log(req);
 
 	var seedClass = new classSchema({
 			discussion: {
