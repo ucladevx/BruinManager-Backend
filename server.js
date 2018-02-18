@@ -94,7 +94,7 @@ app.get('/create', function(req, res) {
 	p.save();
 	
 	// res.send("created a seed user");
-	res.send(req);
+	res.send(req.params.data);
 })
 
 app.listen(process.env.PORT || 3000, () => {
