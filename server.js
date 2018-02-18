@@ -33,17 +33,22 @@ app.get('/', function(req, res) {
 })
 
 app.post('/user', function(req, res){
-	var p = req.body.user;
+
+	var classes = new classSchema(req.body.classes);	//only for one class right now
+	var enrollments = new enrollmentSchema(req.body.enrollment);
+
+	var p = new userSchema({
+		name: req.body.name,
+		classes: {classes},
+		enrollment:{enrollments}
+	});
+
 	p.save();
+	res.send("posted");
 })
 
 // save schema to mLabs
 app.get('/create', function(req, res) {
-	// console.log(req.params.name);
-	// var p = new Person({
-	// 	name: req.params.name,
-	// 	age: 5
-	// });
 
 	var seedClass = new classSchema({
 			discussion: {
@@ -93,8 +98,9 @@ app.get('/create', function(req, res) {
 	});
 	p.save();
 	
-	// res.send("created a seed user");
-	res.send(req.body.data);
+	res.send("created a seed user");
+	// res.send(req.body.data);
+	// console.log(req.body.data);
 })
 
 app.listen(process.env.PORT || 3000, () => {
