@@ -32,9 +32,9 @@ app.post('/user', function(req, res){
 
 	// var classes = [];
 
-	classes.forEach(function(c){
-		console.log(c);
-	});
+	for(var i = 0; i < classes.length; i++){
+		console.log(classes[i]);
+	}
 
 	var enrollments = new enrollmentSchema(req.body.enrollment);
 
