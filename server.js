@@ -28,12 +28,13 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.post('/user', function(req, res){
 
-	var classes = new classSchema(req.body.classes);	//only for one class right now
+	// var classes = req.body.classes;	//only for one class right now
 
-	// var classes = [];
+	var classes = [];
 
 	for(var i = 0; i < classes.length; i++){
-		console.log(classes[i]);
+		var addC = new classSchema(classes[i]);
+		classes.push(addC);
 	}
 
 	var enrollments = new enrollmentSchema(req.body.enrollment);
