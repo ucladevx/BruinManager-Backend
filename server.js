@@ -50,59 +50,6 @@ app.post('/user', function(req, res){
 	res.send("posted");
 })
 
-// save schema to mLabs
-app.get('/create', function(req, res) {
-
-	var seedClass = new classSchema({
-			discussion: {
-			       days : "a",
-			       instructor : "b",
-			       location : "c",
-			       section : "d",
-			       status : "e",
-			       time : "f",
-			       waitlist_status : "g"
-		    },
-			lecture: {
-			       days : "f",
-			       instructor : "g",
-			       location : "h",
-			       name : "i",
-			       section : "j",
-			       status : "k",
-			       time : "l",
-			       units : "m",
-			       waitlist_status : "n"
-    		}
-	});
-
-	// // seedClass.save();
-
-	var seedEnrollment = new enrollmentSchema({
-
-		first_pass: {
-			end : "o",
-			start : "p",
-			units : "q",
-		},
-		second_pass: {
-			end : "r",
-			start : "s",
-			units : "t"
-		}
-	});
-
-	var p = new userSchema({
-		name: "taasin",
-		classes: {seedClass},
-		enrollment:{seedEnrollment}
-	});
-
-	p.save();
-	
-	res.send("created a seed user");
-});
-
 app.get('/', function(req, res) {
 	// res.send("Hello, welcome to the BruinManager API");
 	res.sendFile(path.join(__dirname + '/index.html'));
