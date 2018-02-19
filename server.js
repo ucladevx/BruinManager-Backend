@@ -35,6 +35,7 @@ app.post('/user', function(req, res){
 	for(var i = 0; i < classes.length; i++){
 		var addC = new classSchema(classes[i]);
 		classes.push(addC);
+		res.send(addC);
 	}
 
 	var enrollments = new enrollmentSchema(req.body.enrollment);
