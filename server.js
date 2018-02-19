@@ -29,6 +29,12 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.post('/user', function(req, res){
 
 	var classes = new classSchema(req.body.classes);	//only for one class right now
+
+	// var classes = [];
+	for each (var c in classes){
+		console.log(c);
+	}
+
 	var enrollments = new enrollmentSchema(req.body.enrollment);
 
 	var p = new userSchema({
@@ -101,4 +107,5 @@ app.get('/', function(req, res) {
 
 app.listen(process.env.PORT || 3000, () => {
 	console.log("listening on port 3000");
-})
+});
+	
