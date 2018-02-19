@@ -8,12 +8,10 @@ const keys = require('./config/keys');
 // defined in heroku environment
 
 // get schema defined in model
-// require('./models/db1')
 require('./models/db');
 require('./models/class');
 require('./models/enrollment');
 
-// const Person = mongoose.model('Person');
 const userSchema = mongoose.model('userSchema');
 const classSchema = mongoose.model('classSchema');
 const enrollmentSchema = mongoose.model('enrollmentSchema');
@@ -27,10 +25,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-
-app.get('/', function(req, res) {
-	res.send("hello, welcome to BruinManager");
-})
 
 app.post('/user', function(req, res){
 
@@ -76,32 +70,34 @@ app.get('/create', function(req, res) {
 	// // seedClass.save();
 
 	var seedEnrollment = new enrollmentSchema({
-				first_pass: {
-			        end : "o",
-			        start : "p",
-			        units : "q",
-			    },
 
-			    second_pass: {
-			        end : "r",
-			        start : "s",
-			        units : "t"
-			    }
+		first_pass: {
+			end : "o",
+			start : "p",
+			units : "q",
+		},
+		second_pass: {
+			end : "r",
+			start : "s",
+			units : "t"
+		}
 	});
-
-	// seedEnrollment.save();
 
 	var p = new userSchema({
 		name: "taasin",
 		classes: {seedClass},
 		enrollment:{seedEnrollment}
 	});
+
 	p.save();
 	
 	res.send("created a seed user");
-	// res.send(req.body.data);
-	// console.log(req.body.data);
-})
+});
+
+app.get('/', function(req, res) {
+	// res.send("Hello, welcome to the BruinManager API");
+	res.sendFile(path.join(__dirname + '/index.html'));
+});
 
 app.listen(process.env.PORT || 3000, () => {
 	console.log("listening on port 3000");
