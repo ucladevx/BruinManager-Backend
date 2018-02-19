@@ -31,9 +31,10 @@ app.post('/user', function(req, res){
 	var classes = new classSchema(req.body.classes);	//only for one class right now
 
 	// var classes = [];
-	for each (var c in classes){
+
+	classes.forEach(function(c){
 		console.log(c);
-	}
+	});
 
 	var enrollments = new enrollmentSchema(req.body.enrollment);
 
