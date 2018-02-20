@@ -28,14 +28,12 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.post('/user', function(req, res){
 
-	var classes = req.body.classes;	//only for one class right now
-
+	var classes = req.body.classes;
 	var classArr = [];
 
 	for(var i = 0; i < classes.length; i++){
 		var addC = new classSchema(classes[i]);
 		classArr.push(addC);
-		// res.send(addC);
 	}
 
 	var enrollments = new enrollmentSchema(req.body.enrollment);
@@ -51,8 +49,12 @@ app.post('/user', function(req, res){
 })
 
 app.get('/', function(req, res) {
-	// res.send("Hello, welcome to the BruinManager API");
 	res.sendFile(path.join(__dirname + '/index.html'));
+});
+
+app.get('/api/classes/:username', function(req, res){
+	var query = userSchema.findOne({ 'name': req.body.username});
+	res.send(query);
 });
 
 app.listen(process.env.PORT || 3000, () => {
