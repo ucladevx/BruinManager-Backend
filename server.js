@@ -51,17 +51,20 @@ app.post('/user', function(req, res){
 app.get('/api/classes/:username', function(req, res){
 
 	userSchema.findOne({ "name" : req.params.username}, 'classes', function (err, classArr) {
-	  if (err) return handleError(err);
-
-	// for(var i = 0; i < (classArr.classes).length; i++){
-	// 	console.log(classArr.classes[i]);
-	// }
+	  	if (err) return handleError(err);
 
 		res.send(classArr.classes);
 	  
-	})
+	});
+});
 
-	// res.send("got the data");
+app.get('/api/passes/:username', function(req, res){
+
+	userSchema.findOne({ "name" : req.params.username}, 'enrollment', function (err, passArr) {
+	  	if (err) return handleError(err);
+
+		res.send(passArr.enrollments);
+	});
 });
 
 app.get('/', function(req, res) {
