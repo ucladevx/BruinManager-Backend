@@ -63,7 +63,11 @@ app.get('/api/passes/:username', function(req, res){
 	userSchema.findOne({ "name" : req.params.username}, 'enrollment', function (err, passArr) {
 	  	if (err) return handleError(err);
 
-		res.send(passArr.enrollments);
+	for(var i = 0; i < (passArr.enrollments).length; i++){
+		console.log(passArr.enrollments[i])
+	}
+
+		// res.send(passArr.enrollments);
 	});
 });
 
