@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
+var cors = require('cors')
 var path = require("path");
 
 //get key for mLab
@@ -25,6 +26,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(cors());
 
 app.post('/user', function(req, res){
 
