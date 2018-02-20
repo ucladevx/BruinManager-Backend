@@ -58,6 +58,8 @@ app.get('/api/classes/:username', function(req, res){
 	  // res.send(JSON.stringify(classArr));
 	  console.log(classArr);
 	})
+
+	res.send("got the data");
 });
 
 app.get('/', function(req, res) {
