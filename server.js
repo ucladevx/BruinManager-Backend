@@ -46,10 +46,6 @@ app.post('/user', function(req, res){
 
 	p.save();
 	res.send("posted");
-})
-
-app.get('/', function(req, res) {
-	res.sendFile(path.join(__dirname + '/index.html'));
 });
 
 app.get('/api/classes/:username', function(req, res){
@@ -60,6 +56,10 @@ app.get('/api/classes/:username', function(req, res){
 	  // res.send(JSON.stringify(classArr));
 	  console.log(classArr);
 	})
+});
+
+app.get('/', function(req, res) {
+	res.sendFile(path.join(__dirname + '/index.html'));
 });
 
 app.listen(process.env.PORT || 3000, () => {
