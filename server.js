@@ -50,13 +50,13 @@ app.post('/user', function(req, res){
 
 app.get('/api/classes/:username', function(req, res){
 
-	console.log(req.body.username);
-
 	userSchema.findOne({ "name" : req.params.username}, 'classes', function (err, classArr) {
 	  if (err) return handleError(err);
-	  // console.log('%s %s is a %s.', person.name.first, person.name.last, person.occupation)
-	  // res.send(JSON.stringify(classArr));
-	  console.log(classArr);
+
+	for(var i = 0; i < (classArr.classes).length; i++){
+		console.log(classArr.classes[i]);
+	}
+	  
 	})
 
 	res.send("got the data");
