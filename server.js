@@ -53,13 +53,15 @@ app.get('/api/classes/:username', function(req, res){
 	userSchema.findOne({ "name" : req.params.username}, 'classes', function (err, classArr) {
 	  if (err) return handleError(err);
 
-	for(var i = 0; i < (classArr.classes).length; i++){
-		console.log(classArr.classes[i]);
-	}
+	// for(var i = 0; i < (classArr.classes).length; i++){
+	// 	console.log(classArr.classes[i]);
+	// }
+
+		res.send(classArr.classes);
 	  
 	})
 
-	res.send("got the data");
+	// res.send("got the data");
 });
 
 app.get('/', function(req, res) {
