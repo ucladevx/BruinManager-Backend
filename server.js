@@ -67,7 +67,7 @@ app.get('/api/passes/:username', function(req, res){
 		// 	console.log(passArr.enrollments[i])
 		// }
 
-		console.log(passArr);
+		console.log(passArr.enrollment);
 	});
 
 	// res.send(passArr.enrollments);
