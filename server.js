@@ -54,7 +54,7 @@ app.get('/', function(req, res) {
 
 app.get('/api/classes/:username', function(req, res){
 
-	Person.findOne({ 'name': req.body.username}, 'classes', function (err, classArr) {
+	userSchema.findOne({ 'name': req.body.username}, 'classes', function (err, classArr) {
 	  if (err) return handleError(err);
 	  // console.log('%s %s is a %s.', person.name.first, person.name.last, person.occupation)
 	  res.send(classArr);
