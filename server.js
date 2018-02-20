@@ -54,7 +54,7 @@ app.get('/', function(req, res) {
 
 app.get('/api/classes/:username', function(req, res){
 	var query = userSchema.findOne({ 'name': req.body.username});
-	res.send(query);
+	res.send(JSON.stringify(query));
 });
 
 app.listen(process.env.PORT || 3000, () => {
