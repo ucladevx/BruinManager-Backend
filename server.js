@@ -53,8 +53,12 @@ app.get('/', function(req, res) {
 });
 
 app.get('/api/classes/:username', function(req, res){
-	var query = userSchema.findOne({ 'name': req.body.username});
-	res.send(JSON.stringify(query));
+
+	Person.findOne({ 'name': req.body.username}, 'classes', function (err, classArr) {
+	  if (err) return handleError(err);
+	  // console.log('%s %s is a %s.', person.name.first, person.name.last, person.occupation)
+	  res.send(classArr);
+	})
 });
 
 app.listen(process.env.PORT || 3000, () => {
