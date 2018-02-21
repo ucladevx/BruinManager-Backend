@@ -26,7 +26,7 @@ var eventSchema = new Schema({
         required: true,
         type: Number
     },
-    pincture : {
+    picture : {
         required: true,
         type: String
     },
