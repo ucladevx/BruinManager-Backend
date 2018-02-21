@@ -30,7 +30,7 @@ axios.get('http://whatsmappening.io/api/v1/events')
 
 		// console.log(eventArr);
 		var eventContainer = new eventArraySchema({
-			events: eventArr,
+			events: {eventArr},
 			id: 1
 		})
 
