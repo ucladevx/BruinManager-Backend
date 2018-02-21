@@ -2,7 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 var cors = require('cors')
-var path = require("path");
+var path = require("path"); // needed?
 
 //get key for mLab
 const keys = require('./config/keys');
@@ -13,9 +13,14 @@ require('./models/db');
 require('./models/class');
 require('./models/enrollment');
 
+require("./models/eventArray");
+
 const userSchema = mongoose.model('userSchema');
 const classSchema = mongoose.model('classSchema');
 const enrollmentSchema = mongoose.model('enrollmentSchema');
+
+const eventArraySchema = mongoose.model('eventArraySchema');
+
 
 // connect to mLabs database
 mongoose.connect(keys.mongoURI);
@@ -66,6 +71,17 @@ app.get('/api/passes/:username', function(req, res){
 	  	if (err) return handleError(err);
 
 	  	res.send(passArr.enrollment);
+		// console.log(passArr.enrollment);
+	});
+
+});
+
+app.get('/api/events/:dateID', function(req, res){
+
+	eventArraySchema.findOne({ "id" : req.params.dateID}, 'events', function (err, eventArr) {
+	  	if (err) return handleError(err);
+
+	  	res.send(eventArr);
 		// console.log(passArr.enrollment);
 	});
 
