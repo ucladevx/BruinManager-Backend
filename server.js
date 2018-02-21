@@ -111,9 +111,11 @@ app.get('/api/getEvents', function(req, res){
 			})
 
 			eventContainer.save();
+			res.send("Saved Mappening Data!");
 
 		})
 		.catch((err) => console.log(err));
+		res.send("An error occurred");
 });
 
 // return an array of 10 top events from Mappening API for the day
