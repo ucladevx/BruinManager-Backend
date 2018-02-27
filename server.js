@@ -157,7 +157,7 @@ app.get('/api/hours/:diningHall', function(req,res){
 					case 8: diningName = "thestudyatHedrick"; break;
 				}
 
-				for(var j = 0; j < 3; j++) {
+				for(var j = 0; j < 4; j++) {
 					text = n.next().text();
 					text = text.replace(/(\r\n|\n|\r)/gm,"");
 					text = text.split(' ').join('');
