@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const axios = require('axios')
 const cors = require('cors')
 var path = require("path"); // needed?
+var rp = require('request-promise');
+var cheerio = require('cheerio');
 
 // authentication
 const passport = require('passport');
@@ -88,16 +90,16 @@ app.get('/auth/facebook/callback',
 
 // request a dining hall name, return if its open or not and when it will close if open
 app.get('/api/hours/:diningHall', function(req,res){
-	//Get the date
-	var d = new Date();
+	
+	var d = new Date();			//Get the date
 
 	//Get name from request
 	var name = req.params.diningHall;
 	name = name.toLowerCase();
 
-	//Day format: Sunday - Saturday -> 0 - 6
-	var day = d.getDay();
+	var day = d.getDay();		//Day format: Sunday - Saturday -> 0 - 6
 
+	// get page to scrape data from
 	var options = {
 		uri: 'http://menu.dining.ucla.edu/Hours',
 		transform: function(body) {
@@ -105,27 +107,26 @@ app.get('/api/hours/:diningHall', function(req,res){
 		}
 	};
 
+	// store scraped data here
+	var diningHours = {
+		"covel": [],
+		"deneve": [],
+		"feast": [],
+		"bruinplate": [],
+		"bruincafe": [],
+		"cafe1919": [],
+		"rendezvous": [],
+		"denevegrabngo": [],
+		"thestudyatHedrick": []
+	};
+
 	rp(options)
 		.then(($) => {
-
-			var diningHours = {
-				covel: [],
-				deneve: [],
-				feast: [],
-				bruinplate: [],
-				bruinbafe: [],
-				cafe1919: [],
-				rendezvous: [],
-				denevegrabngo: [],
-				thestudyathedrick: []
-			};
 
 			var t = $('tbody').find('tr').first('td');
 
 			var dine = [];
-
 			dine[0] = t;
-
 
 			var hoursArray = [];
 
@@ -133,16 +134,13 @@ app.get('/api/hours/:diningHall', function(req,res){
 				dine[i] = dine[i - 1].next();
 			}
 
-			
 			//Iterate through each dining hall and add to array
-		
 			for(var i = 0; i < 9; i++) {
 
-				var n =  dine[i].children().first('td');
-
 				var diningName;
-
 				var text;
+
+				var n =  dine[i].children().first('td');
 
 				//Determine name of dining hall to index the diningHours object
 				switch(i) {
@@ -161,15 +159,14 @@ app.get('/api/hours/:diningHall', function(req,res){
 					text = n.next().text();
 					text = text.replace(/(\r\n|\n|\r)/gm,"");
 					text = text.split(' ').join('');
+					console.log(diningHours);
 					diningHours[diningName].push(text);
 					n = n.next();					
 				}
 			}
 
-
 			//Return open/closed times for specified dining hall
 			res.send(diningHours[name]);
-
 
 		})
 		.catch((err) => {
