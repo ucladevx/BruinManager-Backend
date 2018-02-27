@@ -91,6 +91,10 @@ app.get('/api/hours/:diningHall', function(req,res){
 	//Get the date
 	var d = new Date();
 
+	//Get name from request
+	var name = req.params.diningHall;
+	name = name.toLowerCase();
+
 	//Day format: Sunday - Saturday -> 0 - 6
 	var day = d.getDay();
 
@@ -103,20 +107,17 @@ app.get('/api/hours/:diningHall', function(req,res){
 
 	rp(options)
 		.then(($) => {
-			/* Get breakfast hours */
-			//var t = $('tbody').html();
-			//var h = t.children('tr').html();
 
 			var diningHours = {
-				Covel: [],
-				DeNeve: [],
-				FEAST: [],
-				BruinPlate: [],
-				BruinCafe: [],
-				Cafe1919: [],
-				Rendezvous: [],
-				DeNeveGrabNGo: [],
-				TheStudyatHedrick: []
+				covel: [],
+				deneve: [],
+				feast: [],
+				bruinplate: [],
+				bruinbafe: [],
+				cafe1919: [],
+				rendezvous: [],
+				denevegrabngo: [],
+				thestudyathedrick: []
 			};
 
 			var t = $('tbody').find('tr').first('td');
@@ -145,15 +146,15 @@ app.get('/api/hours/:diningHall', function(req,res){
 
 				//Determine name of dining hall to index the diningHours object
 				switch(i) {
-					case 0: diningName = "Covel"; break;
-					case 1: diningName = "DeNeve"; break;
-					case 2: diningName = "FEAST"; break;
-					case 3: diningName = "BruinPlate"; break;
-					case 4: diningName = "BruinCafe"; break;
-					case 5: diningName = "Cafe1919"; break;
-					case 6: diningName = "Rendezvous"; break;
-					case 7: diningName = "DeNeveGrabNGo"; break;
-					case 8: diningName = "TheStudyatHedrick"; break;
+					case 0: diningName = "covel"; break;
+					case 1: diningName = "deneve"; break;
+					case 2: diningName = "feast"; break;
+					case 3: diningName = "bruinplate"; break;
+					case 4: diningName = "bruincafe"; break;
+					case 5: diningName = "cafe1919"; break;
+					case 6: diningName = "rendezvous"; break;
+					case 7: diningName = "denevegrabngo"; break;
+					case 8: diningName = "thestudyatHedrick"; break;
 				}
 
 				for(var j = 0; j < 3; j++) {
@@ -165,9 +166,9 @@ app.get('/api/hours/:diningHall', function(req,res){
 				}
 			}
 
-			var jsonObject = JSON.stringify(diningHours);
 
-			res.send(jsonObject);
+			//Return open/closed times for specified dining hall
+			res.send(diningHours[name]);
 
 
 		})
