@@ -87,8 +87,8 @@ app.use('/api', require('./routes/api'));
 app.use('/post', require('./routes/post'));
 
 app.get('/', function(req, res) {
-	// res.sendFile(path.join(__dirname + '/index.html'));
-	res.render('index.ejs');
+	res.sendFile(path.join(__dirname + '/index.html'));
+	// res.render('./views/index.ejs');
 });
 
 app.listen(process.env.PORT || 3000, () => {
