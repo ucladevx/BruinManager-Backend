@@ -268,11 +268,11 @@ app.get('/api/events/:dateID', function(req, res){
 	});
 });
 
-app.get('/profile', isLoggedIn, function(req, res) {
-    res.render('profile.ejs', {
-        user : req.user // get the user out of session and pass to template
-    });
-});
+// app.get('/profile', isLoggedIn, function(req, res) {
+//     res.render('profile.ejs', {
+//         user : req.user // get the user out of session and pass to template
+//     });
+// });
 
 app.get('/', function(req, res) {
 	// res.sendFile(path.join(__dirname + '/index.html'));
