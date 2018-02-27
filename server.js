@@ -117,7 +117,7 @@ app.get('/api/hours/:diningHall', function(req,res){
 		"cafe1919": [],
 		"rendezvous": [],
 		"denevegrabngo": [],
-		"thestudyatHedrick": []
+		"thestudyathedrick": []
 	};
 
 	rp(options)
@@ -152,7 +152,7 @@ app.get('/api/hours/:diningHall', function(req,res){
 					case 5: diningName = "cafe1919"; break;
 					case 6: diningName = "rendezvous"; break;
 					case 7: diningName = "denevegrabngo"; break;
-					case 8: diningName = "thestudyatHedrick"; break;
+					case 8: diningName = "thestudyathedrick"; break;
 				}
 
 				for(var j = 0; j < 4; j++) {
