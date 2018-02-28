@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 var path = require("path"); // needed?
 
-
 // authentication
 const passport = require('passport');
 // const expressSession = require('express-session');
@@ -16,16 +15,8 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 const keys = require('./config/keys');		// defined in heroku environment
 var configAuth = require('./config/fb');	// auth info
 
-// get schemas defined in model
-// require('./models/db');				// user data
-// require('./models/class');			// classes
-// require('./models/enrollment');		// enrollment passes
-
 require("./models/user");			// authentication 
 
-// const userSchema = mongoose.model('userSchema');
-// const classSchema = mongoose.model('classSchema');
-// const enrollmentSchema = mongoose.model('enrollmentSchema');
 
 const accountSchema = mongoose.model('accountSchema');
 
@@ -87,7 +78,7 @@ app.use('/api', require('./routes/api'));
 app.use('/post', require('./routes/post'));
 
 app.get('/', function(req, res) {
-	res.sendFile(path.join(__dirname + '/index.html'));
+	res.sendFile(path.join(__dirname + '/views/index.html'));
 	// res.render('./views/index.ejs');
 });
 
