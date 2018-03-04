@@ -197,62 +197,34 @@ router.get('/hours/:diningHall', function(req,res){
 
 	hourSchema.findOne({ "name" : req.params.diningHall })
 		.then((hallData) => {
+
 			var foodStatus = "CLOSED";
-					var foodClosingTime = -1;
+			var foodClosingTime = -1;
 
-				  	for(var i = 0; i < hallData.hours.length; i++){
+				 for(var i = 0; i < hallData.hours.length; i++){
 
-				  		var times = hallData.hours[i].split('-');
+				  var times = hallData.hours[i].split('-');
 
-				  			var r = status(times);
-				  			console.log(times);
-				  			console.log(r);
-				  			if(r != -1){				// found an open time
-				  				foodStatus = "OPEN";
-				  				foodClosingTime = r;
-				  			}
+				  	var r = status(times);
+				  	console.log(times);
+				  	console.log(r);
+				  	if(r != -1){				// found an open time
+				  		foodStatus = "OPEN";
+				  		foodClosingTime = r;
 				  	}
+				 }
 
-				  	// form response JSON
-				  	var r = {
-				  		status: foodStatus, 
-				  		closingTime: foodClosingTime
-				  	}
+				 // form response JSON
+				 var r = {
+				  status: foodStatus, 
+				  closingTime: foodClosingTime
+				 }
 
-				  	res.send(r);
+				 res.send(r);
 		})
 		.catch((e) => {
 			console.log(e);
 		})
-
-	// hourSchema.findOne({ "name" : req.params.diningHall }, 'hours', function(err, hallData){
-	//   	if (err) 
-	//   		console.log(err);
-
-	//   	var foodStatus = "CLOSED";
-	// 	var foodClosingTime = -1;
-
-	//   	for(var i = 0; i < hallData.hours.length; i++){
-
-	//   		var times = hallData.hours[i].split('-');
-
-	//   			var r = status(times);
-	//   			console.log(times);
-	//   			console.log(r);
-	//   			if(r != -1){				// found an open time
-	//   				foodStatus = "OPEN";
-	//   				foodClosingTime = r;
-	//   			}
-	//   	}
-
-	//   	// form response JSON
-	//   	var r = {
-	//   		status: foodStatus, 
-	//   		closingTime: foodClosingTime
-	//   	}
-
-	//   	res.send(r);
-	// });
 });
 
 
@@ -264,21 +236,19 @@ function status(times){
 		return -1;
 	}
 
-	// console.log("no closed");
-
 	var d = new Date();			//Get the date
 	var hour = d.getHours();
 	var min = d.getMinutes();
 
 	// testing
-	var hour = 20;
-	var min = 0;
+	// var hour = 20;
+	// var min = 0;
 
 	var t1 = times[0];		// opening time
 	var t2 = times[1];		// closing time
 
-	var open = timeArr(t1);
-	var close = timeArr(t2);
+	var open = timeArr(t1, 0, 0);
+	var close = timeArr(t2, 1, t1);
 
 	// debugging
 	// console.log("open");	
@@ -290,23 +260,27 @@ function status(times){
 	// console.log(close[1]);
 
 	if(hour >= open[0] && hour <= close[0]){
-		if(hour == close[0] && min >= close[1]){			// if same hr as closing hr, check the minutes
-			console.log("here");
+		if(hour == close[0] && min >= close[1]){		// if same hr as closing hr, check the minutes
 			return -1;
 		}
-		else{
-			return t2;										// return closing time
-		}
+		return t2;										// return closing time
 	}
-
-	console.log("here2");
 	return -1;											// means not open
 }
 
 // returns array of two ints
 // [current hr (24 format), current minutes]
-function timeArr(str){
+function timeArr(str, check, time){
 
+	var l1;
+	var ap;
+	
+	if(check == 1){
+		ap = str.substring(str.length - 2, str.length - 1);
+		l1 = time.substring(time.length - 2, time.length - 1);
+	}
+	
+	// console.log(ap);
 	var i;
 	for(i = 0; i < str.length; i++){
 	  	if(str[i] == ':'){
@@ -317,10 +291,12 @@ function timeArr(str){
 	var hr = parseInt(str.substring(0, i));
 	var min = parseInt(str.substring(i + 1, i + 3));
 
-	var ap = str.substring(i+3, i+4);
-
 	if(ap == 'p' && hr != 12){			// convert to 24 hr format
 		hr = hr + 12;
+	}
+
+	if(ap == 'a' && l1 == 'p'){			// if study period opens at 9 pm and closes at 2 am
+		hr = hr + 24;
 	}
 
 	var result = [hr, min];
