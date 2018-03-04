@@ -17,7 +17,6 @@ var configAuth = require('./config/fb');	// auth info
 
 require("./models/user");			// authentication 
 
-
 const accountSchema = mongoose.model('accountSchema');
 
 // connect to mLabs database

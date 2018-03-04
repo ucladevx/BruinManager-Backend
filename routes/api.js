@@ -20,6 +20,11 @@ const eventSchema = mongoose.model('eventSchema');
 require("../models/eventArray");
 const eventArraySchema = mongoose.model('eventArraySchema');
 
+// saves times for each dining hall/takeout
+// holds array of events 
+require("../models/hours");
+const hourSchema = mongoose.model('hourSchema');
+
 /**** Schemas ****/
 
 // return an array of the user's classes
@@ -91,15 +96,15 @@ router.get('/events/:dateID', function(req, res){
 	});
 });
 
-// TODO: Scrape once per day, save in DB and then query db on endpoint call
+// TODO: Scrape once per day
 // request a dining hall name, return hours open for each meal period
-router.get('/hours/:diningHall', function(req,res){
+router.get('/hours/', function(req,res){
 	
 	var d = new Date();			//Get the date
 
 	//Get name from request
-	var name = req.params.diningHall;
-	name = name.toLowerCase();
+	// var name = req.params.diningHall;
+	// name = name.toLowerCase();
 
 	var day = d.getDay();		//Day format: Sunday - Saturday -> 0 - 6
 
@@ -164,18 +169,123 @@ router.get('/hours/:diningHall', function(req,res){
 					text = text.replace(/(\r\n|\n|\r)/gm,"");
 					text = text.split(' ').join('');
 					diningHours[diningName].push(text);
-					n = n.next();					
+					n = n.next();
 				}
+
+				// console.log(diningHours[diningName]);
+
+				var hall = new hourSchema({
+					name: diningName,
+					hours: diningHours[diningName]
+				});
+
+				hall.save();
 			}
 
-			//Return open/closed times for specified dining hall
-			res.send(diningHours[name]);
-
+			res.send("Saved dining hall data");
 		})
+
 		.catch((err) => {
 			console.log(err);
 		});
 });
 
-module.exports = router
+router.get('/hours/:diningHall', function(req,res){
+	
+	var name = req.params.diningHall;
+	name = name.toLowerCase();
 
+	var foodStatus = "CLOSED";
+	var foodClosingTime = -1;
+
+	hourSchema.findOne({ "name" : req.params.diningHall }, 'hours', function(err, hallData){
+	  	if (err) 
+	  		console.log(err);
+
+	  	for(var i = 0; i < hallData.hours.length; i++){
+
+	  		var times = hallData.hours[i].split('-');
+
+	  			var r = status(times);
+	  			if(r != -1){				// found an open time
+	  				foodStatus = "OPEN";
+	  				foodClosingTime = r;
+	  			}
+	  	}
+
+	  	// form response JSON
+	  	var r = {
+	  		status: foodStatus, 
+	  		closingTime: foodClosingTime
+	  	}
+
+	  	res.send(r);
+	});
+});
+
+
+// returns -1 if the dining hall is closed, 
+// or the closing time(string) for the current meal period if the dining hall is open
+function status(times){
+
+	if(times == "CLOSED"){
+		return -1;
+	}
+
+	var d = new Date();			//Get the date
+	var hour = d.getHours();
+	var min = d.getMinutes();
+
+	// testing
+	// var hour = 13;
+	// var min = 0;
+
+	var t1 = times[0];		// opening time
+	var t2 = times[1];		// closing time
+
+	var open = timeArr(t1);
+	var close = timeArr(t2);
+
+	// debugging
+	// console.log("open");	
+	// console.log(open[0]);
+	// console.log(open[1]);
+
+	// console.log("close");
+	// console.log(close[0]);
+	// console.log(close[1]);
+
+	if(hour >= open[0] && hour <= close[0]){
+		if(hour == close[0] && min >= close[1])			// if same hr as closing hr, check the minutes
+			return -1;
+		return t2;										// return closing time
+	}
+
+	return -1;											// means not open
+}
+
+// returns array of two ints
+// [current hr (24 format), current minutes]
+function timeArr(str){
+
+	var i;
+	for(i = 0; i < str.length; i++){
+	  	if(str[i] == ':'){
+	  		break;
+	  	}
+	}
+
+	var hr = parseInt(str.substring(0, i));
+	var min = parseInt(str.substring(i + 1, i + 3));
+
+	var ap = str.substring(i+3, i+4);
+
+	if(ap == 'p' && hr != 12){			// convert to 24 hr format
+		hr = hr + 12;
+	}
+
+	var result = [hr, min];
+	return result;
+}
+
+module.exports = router
