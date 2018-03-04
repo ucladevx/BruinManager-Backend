@@ -263,7 +263,9 @@ function status(times){
 		if(hour == close[0] && min >= close[1]){		// if same hr as closing hr, check the minutes
 			return -1;
 		}
-		return t2;										// return closing time
+		else{
+			return t2;										// return closing time
+		}
 	}
 	return -1;											// means not open
 }
