@@ -195,34 +195,64 @@ router.get('/hours/:diningHall', function(req,res){
 	var name = req.params.diningHall;
 	name = name.toLowerCase();
 
-	hourSchema.findOne({ "name" : req.params.diningHall }, 'hours', function(err, hallData){
-	  	if (err) 
-	  		console.log(err);
+	hourSchema.findOne({ "name" : req.params.diningHall })
+		.then((hallData) => {
+			var foodStatus = "CLOSED";
+					var foodClosingTime = -1;
 
-	  	var foodStatus = "CLOSED";
-		var foodClosingTime = -1;
+				  	for(var i = 0; i < hallData.hours.length; i++){
 
-	  	for(var i = 0; i < hallData.hours.length; i++){
+				  		var times = hallData.hours[i].split('-');
 
-	  		var times = hallData.hours[i].split('-');
+				  			var r = status(times);
+				  			console.log(times);
+				  			console.log(r);
+				  			if(r != -1){				// found an open time
+				  				foodStatus = "OPEN";
+				  				foodClosingTime = r;
+				  			}
+				  	}
 
-	  			var r = status(times);
-	  			console.log(times);
-	  			console.log(r);
-	  			if(r != -1){				// found an open time
-	  				foodStatus = "OPEN";
-	  				foodClosingTime = r;
-	  			}
-	  	}
+				  	// form response JSON
+				  	var r = {
+				  		status: foodStatus, 
+				  		closingTime: foodClosingTime
+				  	}
 
-	  	// form response JSON
-	  	var r = {
-	  		status: foodStatus, 
-	  		closingTime: foodClosingTime
-	  	}
+				  	res.send(r);
+		})
+		.catch((e) => {
+			console.log(e);
+		})
 
-	  	res.send(r);
-	});
+	// hourSchema.findOne({ "name" : req.params.diningHall }, 'hours', function(err, hallData){
+	//   	if (err) 
+	//   		console.log(err);
+
+	//   	var foodStatus = "CLOSED";
+	// 	var foodClosingTime = -1;
+
+	//   	for(var i = 0; i < hallData.hours.length; i++){
+
+	//   		var times = hallData.hours[i].split('-');
+
+	//   			var r = status(times);
+	//   			console.log(times);
+	//   			console.log(r);
+	//   			if(r != -1){				// found an open time
+	//   				foodStatus = "OPEN";
+	//   				foodClosingTime = r;
+	//   			}
+	//   	}
+
+	//   	// form response JSON
+	//   	var r = {
+	//   		status: foodStatus, 
+	//   		closingTime: foodClosingTime
+	//   	}
+
+	//   	res.send(r);
+	// });
 });
 
 
@@ -241,8 +271,8 @@ function status(times){
 	var min = d.getMinutes();
 
 	// testing
-	// var hour = 13;
-	// var min = 0;
+	var hour = 20;
+	var min = 0;
 
 	var t1 = times[0];		// opening time
 	var t2 = times[1];		// closing time
