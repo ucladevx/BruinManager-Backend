@@ -195,12 +195,12 @@ router.get('/hours/:diningHall', function(req,res){
 	var name = req.params.diningHall;
 	name = name.toLowerCase();
 
-	var foodStatus = "CLOSED";
-	var foodClosingTime = -1;
-
 	hourSchema.findOne({ "name" : req.params.diningHall }, 'hours', function(err, hallData){
 	  	if (err) 
 	  		console.log(err);
+
+	  	var foodStatus = "CLOSED";
+		var foodClosingTime = -1;
 
 	  	for(var i = 0; i < hallData.hours.length; i++){
 
@@ -232,7 +232,7 @@ function status(times){
 		return -1;
 	}
 
-	console.log("no closed");
+	// console.log("no closed");
 
 	var d = new Date();			//Get the date
 	var hour = d.getHours();
@@ -260,7 +260,7 @@ function status(times){
 	if(hour >= open[0] && hour <= close[0]){
 		if(hour == close[0] && min >= close[1])			// if same hr as closing hr, check the minutes
 			return -1;
-		console.log("return");
+		// console.log("return");
 		return t2;										// return closing time
 		
 	}
