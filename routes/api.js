@@ -199,7 +199,7 @@ router.get('/hours/:diningHall', function(req,res){
 	  	if (err) 
 	  		console.log(err);
 
-	  	var foodStatus;
+	  	var foodStatus = "CLOSED";
 		var foodClosingTime = -1;
 
 	  	for(var i = 0; i < hallData.hours.length; i++){
@@ -207,14 +207,12 @@ router.get('/hours/:diningHall', function(req,res){
 	  		var times = hallData.hours[i].split('-');
 
 	  			var r = status(times);
+	  			console.log(times);
+	  			console.log(r);
 	  			if(r != -1){				// found an open time
 	  				foodStatus = "OPEN";
 	  				foodClosingTime = r;
 	  			}
-	  	}
-
-	  	if(foodStatus != "OPEN"){
-	  		foodStatus = "CLOSED";
 	  	}
 
 	  	// form response JSON
