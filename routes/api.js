@@ -232,6 +232,8 @@ function status(times){
 		return -1;
 	}
 
+	console.log("no closed");
+
 	var d = new Date();			//Get the date
 	var hour = d.getHours();
 	var min = d.getMinutes();
@@ -258,7 +260,9 @@ function status(times){
 	if(hour >= open[0] && hour <= close[0]){
 		if(hour == close[0] && min >= close[1])			// if same hr as closing hr, check the minutes
 			return -1;
+		console.log("return");
 		return t2;										// return closing time
+		
 	}
 
 	return -1;											// means not open
