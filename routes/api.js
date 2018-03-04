@@ -274,7 +274,7 @@ function timeArr(str, check, time){
 
 	var l1;
 	var ap;
-	
+
 	if(check == 1){
 		ap = str.substring(str.length - 2, str.length - 1);
 		l1 = time.substring(time.length - 2, time.length - 1);
@@ -296,6 +296,7 @@ function timeArr(str, check, time){
 	}
 
 	if(ap == 'a' && l1 == 'p'){			// if study period opens at 9 pm and closes at 2 am
+		console.log("oh no");
 		hr = hr + 24;
 	}
 
