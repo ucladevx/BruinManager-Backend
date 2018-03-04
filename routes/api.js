@@ -260,13 +260,16 @@ function status(times){
 	// console.log(close[1]);
 
 	if(hour >= open[0] && hour <= close[0]){
-		if(hour == close[0] && min >= close[1])			// if same hr as closing hr, check the minutes
+		if(hour == close[0] && min >= close[1]){			// if same hr as closing hr, check the minutes
+			console.log("here");
 			return -1;
-		// console.log("return");
-		return t2;										// return closing time
-		
+		}
+		else{
+			return t2;										// return closing time
+		}
 	}
 
+	console.log("here2");
 	return -1;											// means not open
 }
 
