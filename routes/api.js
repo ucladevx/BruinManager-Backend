@@ -101,11 +101,6 @@ router.get('/events/:dateID', function(req, res){
 router.get('/hours/', function(req,res){
 	
 	var d = new Date();			//Get the date
-
-	//Get name from request
-	// var name = req.params.diningHall;
-	// name = name.toLowerCase();
-
 	var day = d.getDay();		//Day format: Sunday - Saturday -> 0 - 6
 
 	// get page to scrape data from
@@ -190,6 +185,7 @@ router.get('/hours/', function(req,res){
 		});
 });
 
+// Theres a BUGGGG
 router.get('/hours/:diningHall', function(req,res){
 	
 	var name = req.params.diningHall;
@@ -211,6 +207,7 @@ router.get('/hours/:diningHall', function(req,res){
 				  	if(r != -1){				// found an open time
 				  		foodStatus = "OPEN";
 				  		foodClosingTime = r;
+				  		break;
 				  	}
 				 }
 
