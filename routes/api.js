@@ -241,6 +241,10 @@ function status(times){
 	// var hour = 20;
 	// var min = 0;
 
+	// debugging
+	console.log(hour);
+	console.log(min);
+
 	var t1 = times[0];		// opening time
 	var t2 = times[1];		// closing time
 
@@ -248,22 +252,24 @@ function status(times){
 	var close = timeArr(t2, 1, t1);
 
 	// debugging
-	// console.log("open");	
-	// console.log(open[0]);
-	// console.log(open[1]);
+	console.log("open");	
+	console.log(open[0]);
+	console.log(open[1]);
 
-	// console.log("close");
-	// console.log(close[0]);
-	// console.log(close[1]);
+	console.log("close");
+	console.log(close[0]);
+	console.log(close[1]);
 
 	if(hour >= open[0] && hour <= close[0]){
 		if(hour == close[0] && min >= close[1]){		// if same hr as closing hr, check the minutes
+			console.log("here1");
 			return -1;
 		}
 		else{
 			return t2;										// return closing time
 		}
 	}
+	console.log("here2");
 	return -1;											// means not open
 }
 
