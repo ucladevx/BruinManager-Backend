@@ -18,4 +18,4 @@ request(url, function(error, response, html){
         // var json = { title : "", release : "", rating : ""};
         
     }
-})
+});

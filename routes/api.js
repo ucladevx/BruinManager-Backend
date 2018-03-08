@@ -4,7 +4,7 @@ const axios = require('axios')
 var rp = require('request-promise');
 var cheerio = require('cheerio');
 const express = require('express')
-  , router = express.Router()
+  ,router = express.Router()
 
 /**** Schemas ****/
 
@@ -24,6 +24,9 @@ const eventArraySchema = mongoose.model('eventArraySchema');
 // holds array of events 
 require("../models/hours");
 const hourSchema = mongoose.model('hourSchema');
+
+require("../models/notes");
+const noteSchema = mongoose.model('noteSchema');
 
 /**** Schemas ****/
 
