@@ -26,7 +26,7 @@ router.post('/user', function(req, res){
 
 	var classes = req.body.classes;
 	var classArr = [];
-	var noteArr = [];
+	// var noteArr = [];
 
 	for(var i = 0; i < classes.length; i++){
 		var addC = new classSchema(classes[i]);
@@ -39,7 +39,7 @@ router.post('/user', function(req, res){
 		name: req.body.name,
 		classes: {classes},
 		enrollment:{enrollments},
-		notes: {noteArr}
+		notes: []
 	});
 
 	p.save();
