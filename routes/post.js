@@ -48,7 +48,6 @@ router.post('/user', function(req, res){
 });
 
 // post a note to save to specified user's document
-// TODO: update, delete, read
 router.post('/notes/:userName', (req,res) =>{
 
 	var note = req.body.note;

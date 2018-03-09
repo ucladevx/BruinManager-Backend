@@ -234,4 +234,17 @@ router.get('/hours/:diningHall', function(req,res){
 		})
 });
 
+// return array of a user's notes
+// TODO: update, delete
+router.get('/notes/:userName', (req,res) =>{
+
+	userSchema.findOne({ "name" : req.params.userName })
+		.then((user) => {
+			res.send(user.notes);
+		})
+		.catch((e) => {
+			console.log(e);
+		})
+})
+
 module.exports = router
