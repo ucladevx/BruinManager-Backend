@@ -22,11 +22,12 @@ const noteSchema = mongoose.model('noteSchema');
 
 /**** Schemas ****/
 
+// post a user's data to save in database
+//TODO: update user if they already exist, else make a new document
 router.post('/user', function(req, res){
 
 	var classes = req.body.classes;
 	var classArr = [];
-	// var noteArr = [];
 
 	for(var i = 0; i < classes.length; i++){
 		var addC = new classSchema(classes[i]);
@@ -39,34 +40,16 @@ router.post('/user', function(req, res){
 		name: req.body.name,
 		classes: {classes},
 		enrollment:{enrollments},
-		notes: []
+		notes: []					// user has no notes to start with
 	});
 
 	p.save();
 	res.send("posted");
 });
 
+// post a note to save to specified user's document
+// TODO: update, delete, read
 router.post('/notes/:userName', (req,res) =>{
-	addNote(req,res);
-});
-
-// router.post('/notes/:userName', (req,res) => {
-// 	// var userName = req.body.userName;
-// 	// console.log(req.params.userName);
-// 	userSchema.findOne({ "name" : req.params.userName })
-// 		.then((user) => {
-// 			// console.log(noteData.notes);
-// 			var notesArr = user.notes;
-
-// 		})
-// 		.catch((e) => {
-// 			console.log(e);
-// 		})
-
-// 	res.send("Notes saved");
-// })
-
-function addNote(req, res){
 
 	var note = req.body.note;
 	var date = req.body.date;
@@ -76,9 +59,17 @@ function addNote(req, res){
 		date: date
 	});
 
-	userSchema.findOneAndUpdate({name: req.body.userName}, {$push: {notes: newNote}});
-	// res.send("note saved");
-	res.send(newNote);
-}
+	userSchema.findOne({ "name" : req.params.userName })
+		.then((user) => {
+
+			user.notes.push(newNote);
+			console.log(user.notes);
+			user.save();
+			res.send(newNote);
+		})
+		.catch((e) => {
+			console.log(e);
+		})
+});
 
 module.exports = router
