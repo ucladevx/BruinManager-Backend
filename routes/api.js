@@ -235,7 +235,7 @@ router.get('/hours/:diningHall', function(req,res){
 });
 
 // return array of a user's notes
-// TODO: update, delete
+// move notes routes to one file
 router.get('/notes/:userName', (req,res) =>{
 
 	userSchema.findOne({ "name" : req.params.userName })
@@ -246,5 +246,24 @@ router.get('/notes/:userName', (req,res) =>{
 			console.log(e);
 		})
 })
+
+// delete given index in note array
+router.get('/notes/delete/:userName/:noteNumber', (req,res) => {
+	userSchema.findOne({ "name" : req.params.userName })
+		.then((user) => {
+			var index = parseInt(req.params.noteNumber);
+			if(index < user.notes.length && index >= 0){
+				var removedNote = user.notes.splice(index,1);
+				user.save();
+				res.send(removedNote);
+			}
+			else{
+				res.send("note index out of bounds");
+			}
+		})
+		.catch((e) => {
+			console.log(e);
+		})
+});
 
 module.exports = router
