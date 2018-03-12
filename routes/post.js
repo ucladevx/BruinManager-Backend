@@ -101,4 +101,13 @@ router.post('/notes/update/:userName/:noteNumber', (req,res) => {
 		})
 });
 
+router.post('/userFB', (req,res) => {
+	var fbdata = {
+		"name": req.body.name,
+		"email": req.body.email,
+		"id": req.body.id,
+	}
+	res.send(fbdata);
+});
+
 module.exports = router
