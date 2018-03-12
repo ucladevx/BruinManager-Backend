@@ -3,8 +3,9 @@ const mongoose = require('mongoose');
 const axios = require('axios')
 var rp = require('request-promise');
 var cheerio = require('cheerio');
-const express = require('express')
-  ,router = express.Router()
+const express = require('express');
+var router = express.Router();
+var twilio = require('twilio');
 
 /**** API Functions ****/
 
@@ -265,5 +266,25 @@ router.get('/notes/delete/:userName/:noteNumber', (req,res) => {
 			console.log(e);
 		})
 });
+
+
+//Twilio API
+//Twilio Phone Number (747) 233-1904
+//user email: arsaad@g.ucla.edu
+//pass:as980612692018
+router.get('/textalerts', (req, res) => {
+	var accountSid = 'AC7ec6e3be87d0ef44e1cb66a9894e9373'; // Your Account SID from www.twilio.com/console
+	var authToken = '684de93e923c5ffb69a0f0d9f4702008';   // Your Auth Token from www.twilio.com/console
+
+	var twilio = require('twilio');
+	var client = new twilio(accountSid, authToken);
+
+	client.messages.create({
+    	body: 'Hello from Node',
+    	to: '+3233970215',  // Enter your phone number here
+    	from: '+7472331904' // From a valid Twilio number
+	}).then((message) => console.log(message.sid));
+});
+
 
 module.exports = router
