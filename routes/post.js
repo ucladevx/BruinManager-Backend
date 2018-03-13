@@ -37,7 +37,9 @@ router.post('/user', function(req, res){
 	var enrollments = new enrollmentSchema(req.body.enrollment);
 
 	var p = new userSchema({
+		user_id: req.body.user_id,
 		name: req.body.name,
+		email: req.body.email,
 		classes: {classes},
 		enrollment:{enrollments},
 		notes: []					// user has no notes to start with
