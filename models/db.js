@@ -12,7 +12,8 @@ var userSchema = new Schema({
 	name: {type: String, required: true},
 	classes: {type: [classSchema], required: true},
 	enrollment: {type: [enrollmentSchema], required: true },
-	notes: {type: [noteSchema]}
+	notes: {type: [noteSchema]},
+	phone_number: {type: String}
 });
 
 

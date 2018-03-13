@@ -267,6 +267,34 @@ router.get('/notes/delete/:userName/:noteNumber', (req,res) => {
 		})
 });
 
+// TODO: need to continuously check if its the pass time
+// route to call to text user
+router.get('/alert/:userName', (req,res) => {
+
+	userSchema.findOne({ "name" : req.params.userName })
+		.then((user) => {
+
+			// TODO: Check if current time is 15 min before one of the user's passes
+			// TODO: make sure there are always two passes in schema
+			var first = user.enrollment[0].start;
+			var second = user.enrollment[1].start;
+
+
+			var d = new Date();			//Get the date
+
+			//if curr date and time match date and time -15 of passes
+				// send a text "your first/second pass is in 15 min"
+
+
+			// if so, send a text to this number
+			var number = user.phone_number;
+
+		})
+		.catch((e) => {
+			console.log(e);
+		})
+});
+
 
 //Twilio API
 //Twilio Phone Number (747) 233-1904
@@ -276,12 +304,12 @@ router.get('/textalerts', (req, res) => {
 	var accountSid = 'AC7ec6e3be87d0ef44e1cb66a9894e9373'; // Your Account SID from www.twilio.com/console
 	var authToken = '684de93e923c5ffb69a0f0d9f4702008';   // Your Auth Token from www.twilio.com/console
 
-	var twilio = require('twilio');
+	// var twilio = require('twilio');
 	var client = new twilio(accountSid, authToken);
-
+	
 	client.messages.create({
     	body: 'Hello from Node',
-    	to: '+3233970215',  // Enter your phone number here
+    	to: '+15106486565',  // Enter your phone number here
     	from: '+7472331904' // From a valid Twilio number
 	}).then((message) => console.log(message.sid));
 });

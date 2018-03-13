@@ -61,7 +61,7 @@ router.post('/notes/:userName', (req,res) =>{
 	userSchema.findOne({ "name" : req.params.userName })
 		.then((user) => {
 			user.notes.push(newNote);
-			console.log(user.notes);
+			// console.log(user.notes);
 			user.save();
 			res.send(newNote);
 		})
@@ -71,6 +71,18 @@ router.post('/notes/:userName', (req,res) =>{
 		})
 });
 
+// save a user's phone number
+router.post('/phonenumber/:userName', (req,res) => {
+	var number = req.body.number;
+
+	userSchema.update({ "name" : req.params.userName }, { $set: { phone_number: number }}, function(err,number){
+		if (err) console.log(err);
+  		res.send(number);
+	});
+
+})
+
+// TODO: Use update, not save
 // update given index in note array
 router.post('/notes/update/:userName/:noteNumber', (req,res) => {
 
