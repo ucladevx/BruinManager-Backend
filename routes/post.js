@@ -36,31 +36,57 @@ router.post('/userID', function(req, res){
 });
 
 // post a user's data to save in database
-//TODO: update user if they already exist, else make a new document
+//TODO: check if user exists and if they're posting new data, then upate db
 router.post('/user', function(req, res){
 
 	var id = req.body.user_id;					// find schema to update with this value
 	var classes = req.body.classes;
 	var classArr = [];
 
-	for(var i = 0; i < classes.length; i++){
-		var addC = new classSchema(classes[i]);
-		classArr.push(addC);
-	}
+    userSchema.find({user_id : id}, function (err, docs) {
+        if (!docs.length){
+            // next();
+	    	for(var i = 0; i < classes.length; i++){
+				var addC = new classSchema(classes[i]);
+				classArr.push(addC);
+			}
 
-	var enrollments = new enrollmentSchema(req.body.enrollment);
+			var enrollments = new enrollmentSchema(req.body.enrollment);
 
-	var p = new userSchema({
-		user_id: req.body.user_id,
-		name: req.body.name,
-		email: req.body.email,
-		classes: {classes},
-		enrollment:{enrollments},
-		notes: []					// user has no notes to start with
-	});
+			var p = new userSchema({
+				user_id: req.body.user_id,
+				name: req.body.name,
+				email: req.body.email,
+				classes: {classes},
+				enrollment:{enrollments},
+				notes: []					// user has no notes to start with
+			});
 
-	p.save();
-	res.send("posted");
+			p.save();
+			res.send("posted");
+        }else{                
+            res.send('user exists: ', req.body.name);
+        }
+    });
+
+	// for(var i = 0; i < classes.length; i++){
+	// 	var addC = new classSchema(classes[i]);
+	// 	classArr.push(addC);
+	// }
+
+	// var enrollments = new enrollmentSchema(req.body.enrollment);
+
+	// var p = new userSchema({
+	// 	user_id: req.body.user_id,
+	// 	name: req.body.name,
+	// 	email: req.body.email,
+	// 	classes: {classes},
+	// 	enrollment:{enrollments},
+	// 	notes: []					// user has no notes to start with
+	// });
+
+	// p.save();
+	// res.send("posted");
 });
 
 // post a note to save to specified user's document
