@@ -22,10 +22,24 @@ const noteSchema = mongoose.model('noteSchema');
 
 /**** Schemas ****/
 
+// TODO: access data on other routes with userID
+router.post('/userID', function(req, res){
+
+	var p = new userSchema({
+		user_id: req.body.user_id,
+		name: req.body.name,
+		email: req.body.email,				
+	});
+
+	p.save();
+	res.send("posted user credentials");
+});
+
 // post a user's data to save in database
 //TODO: update user if they already exist, else make a new document
 router.post('/user', function(req, res){
 
+	var id = req.body.user_id;					// find schema to update with this value
 	var classes = req.body.classes;
 	var classArr = [];
 

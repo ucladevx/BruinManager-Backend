@@ -11,8 +11,8 @@ var userSchema = new Schema({
 	user_id: {type: String},
 	name: {type: String},
 	email: {type: String}, 
-	classes: {type: [classSchema], required: true},
-	enrollment: {type: [enrollmentSchema], required: true },
+	classes: {type: [classSchema]},
+	enrollment: {type: [enrollmentSchema]},
 	notes: {type: [noteSchema]},
 	phone_number: {type: String}
 });
