@@ -39,9 +39,9 @@ const noteSchema = mongoose.model('noteSchema');
 /**** Schemas ****/
 
 // return an array of the user's classes
-router.get('/classes/:userID', function(req, res){
+router.get('/classes/:username', function(req, res){
 
-	userSchema.findOne({ "user_id" : req.params.userID}, 'classes', function (err, classArr) {
+	userSchema.findOne({ "user_id" : req.params.username}, 'classes', function (err, classArr) {
 	  	if (err) return handleError(err);
 
 		res.send(classArr.classes);
