@@ -43,8 +43,8 @@ router.post('/user', function(req, res){
 	var classes = req.body.classes;
 	var classArr = [];
 
-    userSchema.find({user_id : id}, function (err, docs) {
-        if (!docs.length){
+    // userSchema.find({user_id : id}, function (err, docs) {
+    //     if (!docs.length){
             // next();
 	    	for(var i = 0; i < classes.length; i++){
 				var addC = new classSchema(classes[i]);
@@ -64,10 +64,10 @@ router.post('/user', function(req, res){
 
 			p.save();
 			res.send("posted");
-        }else{                
-            res.send('user exists: ', req.body.name);
-        }
-    });
+    //     }else{                
+    //         res.send('user exists: ', req.body.name);
+    //     }
+    // });
 
 	// for(var i = 0; i < classes.length; i++){
 	// 	var addC = new classSchema(classes[i]);
