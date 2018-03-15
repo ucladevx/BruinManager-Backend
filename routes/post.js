@@ -22,7 +22,7 @@ const noteSchema = mongoose.model('noteSchema');
 
 /**** Schemas ****/
 
-// TODO: access data on other routes with userID
+// TODO: only create if ID doesn't exist in db
 router.post('/userID', function(req, res){
 
 	var p = new userSchema({
@@ -100,7 +100,7 @@ router.post('/notes/:userName', (req,res) =>{
 		date: date
 	});
 
-	userSchema.findOne({ "name" : req.params.userName })
+	userSchema.findOne({ "user_id" : req.params.username })
 		.then((user) => {
 			user.notes.push(newNote);
 			// console.log(user.notes);
@@ -117,7 +117,7 @@ router.post('/notes/:userName', (req,res) =>{
 router.post('/phonenumber/:userName', (req,res) => {
 	var number = req.body.number;
 
-	userSchema.update({ "name" : req.params.userName }, { $set: { phone_number: number }}, function(err,number){
+	userSchema.update({ "user_id" : req.params.username }, { $set: { phone_number: number }}, function(err,number){
 		if (err) console.log(err);
   		res.send(number);
 	});
@@ -136,7 +136,7 @@ router.post('/notes/update/:userName/:noteNumber', (req,res) => {
 		date: date
 	});
 
-	userSchema.findOne({ "name" : req.params.userName })
+	userSchema.findOne({ "user_id" : req.params.username })
 		.then((user) => {
 			var index = parseInt(req.params.noteNumber);
 			if(index < user.notes.length && index >= 0){
@@ -155,13 +155,13 @@ router.post('/notes/update/:userName/:noteNumber', (req,res) => {
 		})
 });
 
-router.post('/userFB', (req,res) => {
-	var fbdata = {
-		"name": req.body.name,
-		"email": req.body.email,
-		"id": req.body.id,
-	}
-	res.send(fbdata);
-});
+// router.post('/userFB', (req,res) => {
+// 	var fbdata = {
+// 		"name": req.body.name,
+// 		"email": req.body.email,
+// 		"id": req.body.id,
+// 	}
+// 	res.send(fbdata);
+// });
 
 module.exports = router

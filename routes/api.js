@@ -51,7 +51,7 @@ router.get('/classes/:username', function(req, res){
 // return an array of the user's passes
 router.get('/passes/:username', function(req, res){
 
-	userSchema.findOne({ "name" : req.params.username}, 'enrollment', function (err, passArr) {
+	userSchema.findOne({ "user_id" : req.params.username}, 'enrollment', function (err, passArr) {
 	  	if (err) return handleError(err);
 
 	  	res.send(passArr.enrollment);
@@ -250,7 +250,7 @@ router.get('/notes/:userName', (req,res) =>{
 
 // delete given index in note array
 router.get('/notes/delete/:userName/:noteNumber', (req,res) => {
-	userSchema.findOne({ "name" : req.params.userName })
+	userSchema.findOne({ "user_id" : req.params.username })
 		.then((user) => {
 			var index = parseInt(req.params.noteNumber);
 			if(index < user.notes.length && index >= 0){
@@ -271,7 +271,7 @@ router.get('/notes/delete/:userName/:noteNumber', (req,res) => {
 // route to call to text user
 router.get('/alert/:userName', (req,res) => {
 
-	userSchema.findOne({ "name" : req.params.userName })
+	userSchema.findOne({"user_id" : req.params.username})
 		.then((user) => {
 
 			// TODO: Check if current time is 15 min before one of the user's passes
