@@ -89,6 +89,7 @@ router.post('/user', function(req, res){
 	// res.send("posted");
 });
 
+// TODO: Broken
 // post a note to save to specified user's document
 router.post('/notes/:userName', (req,res) =>{
 

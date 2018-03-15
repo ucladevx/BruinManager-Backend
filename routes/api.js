@@ -61,6 +61,7 @@ router.get('/passes/:username', function(req, res){
 // save 10 Mappening events to db
 // TODO: call once per day, implement search, return more than just a random group of 10 events
 // , move to different router file?
+// TODO: Broken
 router.get('/getEvents', function(req, res){
 
 	var eventArr = [];
@@ -197,6 +198,7 @@ router.get('/hours/', function(req,res){
 });
 
 // Theres a BUGGGG
+// TODO: Logic of determining/returning correct time is off
 router.get('/hours/:diningHall', function(req,res){
 	
 	var name = req.params.diningHall;
@@ -235,6 +237,8 @@ router.get('/hours/:diningHall', function(req,res){
 		})
 });
 
+// TODO: Broken
+// TODO: Test all notes routes
 // return array of a user's notes
 // move notes routes to one file
 router.get('/notes/:userName', (req,res) =>{
