@@ -5,15 +5,15 @@ const express = require('express')
 /**** Schemas ****/
 
 // user data, holds an array of classes and an array of enrollment appointments
-require('../models/db');		
+require('../models/db');
 const userSchema = mongoose.model('userSchema');
 
 // classes
-require('../models/class');			
+require('../models/class');
 const classSchema = mongoose.model('classSchema');
 
 // enrollment passes
-require('../models/enrollment');		
+require('../models/enrollment');
 const enrollmentSchema = mongoose.model('enrollmentSchema');
 
 // notes
@@ -28,7 +28,7 @@ router.post('/userID', function(req, res){
 	var p = new userSchema({
 		user_id: req.body.user_id,
 		name: req.body.name,
-		email: req.body.email,				
+		email: req.body.email,
 	});
 
 	p.save();
@@ -64,7 +64,7 @@ router.post('/user', function(req, res){
 
 			p.save();
 			res.send("posted");
-    //     }else{                
+    //     }else{
     //         res.send('user exists: ', req.body.name);
     //     }
     // });
@@ -91,7 +91,7 @@ router.post('/user', function(req, res){
 
 // TODO: Broken
 // post a note to save to specified user's document
-router.post('/notes/:userName', (req,res) =>{
+router.post('/notes/:userID', (req,res) =>{
 
 	var note = req.body.note;
 	var date = new Date();
@@ -101,7 +101,7 @@ router.post('/notes/:userName', (req,res) =>{
 		date: date
 	});
 
-	userSchema.findOne({ "user_id" : req.params.username })
+	userSchema.findOne({ "user_id" : req.params.userID })
 		.then((user) => {
 			user.notes.push(newNote);
 			// console.log(user.notes);

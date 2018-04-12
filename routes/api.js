@@ -21,15 +21,15 @@ require('../models/db');
 const userSchema = mongoose.model('userSchema');
 
 // mappening events
-require("../models/events");	
-const eventSchema = mongoose.model('eventSchema');		
+require("../models/events");
+const eventSchema = mongoose.model('eventSchema');
 
-// holds array of events 
+// holds array of events
 require("../models/eventArray");
 const eventArraySchema = mongoose.model('eventArraySchema');
 
 // saves times for each dining hall/takeout
-// holds array of events 
+// holds array of events
 require("../models/hours");
 const hourSchema = mongoose.model('hourSchema');
 
@@ -38,16 +38,17 @@ const noteSchema = mongoose.model('noteSchema');
 
 /**** Schemas ****/
 
-// return an array of the user's classes
-router.get('/classes/:username', function(req, res){
+// return an array of the user's classes given userID
+router.get('/classes/:userID', function(req, res){
 
-	userSchema.findOne({ "user_id" : req.params.username}, 'classes', function (err, classArr) {
+	userSchema.findOne({ "user_id" : req.params.userID}, 'classes', function (err, classArr) {
 	  	if (err) return handleError(err);
 
 		res.send(classArr.classes);
 	});
 });
 
+// TODO: only update enrollment passes once per quarter
 // return an array of the user's passes
 router.get('/passes/:username', function(req, res){
 
@@ -58,6 +59,9 @@ router.get('/passes/:username', function(req, res){
 	});
 });
 
+/**** Mappening ****/
+
+// TODO: fix api call
 // save 10 Mappening events to db
 // TODO: call once per day, implement search, return more than just a random group of 10 events
 // , move to different router file?
@@ -69,7 +73,7 @@ router.get('/getEvents', function(req, res){
 	axios.get('http://whatsmappening.io/api/v1/events')
 		.then((res) => {
 			for(var i = 0; i < 10; i++){
-				
+
 				var data = (res.data.features)[i].properties;
 				var event = new eventSchema({
 				    name : data.event_name,
@@ -98,6 +102,7 @@ router.get('/getEvents', function(req, res){
 		res.send("An error occurred");
 });
 
+// TODO: related to mappening api above
 // return an array of 10 top events from Mappening API for the day
 router.get('/events/:dateID', function(req, res){
 
@@ -108,10 +113,14 @@ router.get('/events/:dateID', function(req, res){
 	});
 });
 
+/**** Mappening ****/
+/**** Dining Menus ****/
+
+// TODO: buggy
 // TODO: Scrape once per day
 // request a dining hall name, return hours open for each meal period
 router.get('/hours/', function(req,res){
-	
+
 	var d = new Date();			//Get the date
 	var day = d.getDay();		//Day format: Sunday - Saturday -> 0 - 6
 
@@ -197,10 +206,10 @@ router.get('/hours/', function(req,res){
 		});
 });
 
-// Theres a BUGGGG
+// TODO: Theres a BUGGGG related to above
 // TODO: Logic of determining/returning correct time is off
 router.get('/hours/:diningHall', function(req,res){
-	
+
 	var name = req.params.diningHall;
 	name = name.toLowerCase();
 
@@ -226,7 +235,7 @@ router.get('/hours/:diningHall', function(req,res){
 
 				 // form response JSON
 				 var r = {
-				  status: foodStatus, 
+				  status: foodStatus,
 				  closingTime: foodClosingTime
 				 }
 
@@ -236,6 +245,10 @@ router.get('/hours/:diningHall', function(req,res){
 			console.log(e);
 		})
 });
+
+/**** Dining Menus ****/
+
+/**** Notes ****/
 
 // TODO: Broken
 // TODO: Test all notes routes
@@ -270,6 +283,8 @@ router.get('/notes/delete/:userName/:noteNumber', (req,res) => {
 			console.log(e);
 		})
 });
+/**** Notes ****/
+/**** Twilio ****/
 
 // TODO: need to continuously check if its the pass time
 // route to call to text user
@@ -310,7 +325,7 @@ router.get('/textalerts', (req, res) => {
 
 	// var twilio = require('twilio');
 	var client = new twilio(accountSid, authToken);
-	
+
 	client.messages.create({
     	body: 'Hello from Node',
     	to: '+15106486565',  // Enter your phone number here
@@ -318,5 +333,6 @@ router.get('/textalerts', (req, res) => {
 	}).then((message) => console.log(message.sid));
 });
 
+/**** Twilio ****/
 
 module.exports = router
