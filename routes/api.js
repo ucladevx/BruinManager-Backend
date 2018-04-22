@@ -116,11 +116,10 @@ router.get('/events/:dateID', function(req, res){
 /**** Mappening ****/
 /**** Dining Menus ****/
 
-// TODO: buggy
 // TODO: Scrape once per day
 // request a dining hall name, return hours open for each meal period
 
-//BUG #1: Does not scrape Feast data, not shown in mlabs
+//TODO: If closed for the whole day, doesnt scrape, create empty object and push to mlabs
 
 router.get('/hours/', function(req,res){
 
