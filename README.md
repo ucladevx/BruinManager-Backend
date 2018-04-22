@@ -6,6 +6,10 @@ URL: https://arcane-cove-10079.herokuapp.com/
 First, download the chrome extension and allow BruinManager to scrape your data.
 Then go to the URL above to save your data to our database.
 
+###### Environment Variables:
+set up mlabs
+heroku config:add TZ="America/Los_Angeles"
+
 ### Endpoints:
 
 ###### POST:
@@ -21,4 +25,3 @@ Then go to the URL above to save your data to our database.
 * /api/hours/:diningHall - get hours for each dining hall/togo option for each meal period
 * /api/notes/:userName - return array of user's saved notes
 * /api/notes/delete/:userName/:noteNumber - delete note at specified index of specified user's notes array
-
