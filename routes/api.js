@@ -1,6 +1,6 @@
 // routes for /api
 const mongoose = require('mongoose');
-const axios = require('axios')
+const axios = require('axios');
 var rp = require('request-promise');
 var cheerio = require('cheerio');
 const express = require('express');
@@ -119,6 +119,9 @@ router.get('/events/:dateID', function(req, res){
 // TODO: buggy
 // TODO: Scrape once per day
 // request a dining hall name, return hours open for each meal period
+
+//BUG #1: Does not scrape Feast data, not shown in mlabs
+
 router.get('/hours/', function(req,res){
 
 	var d = new Date();			//Get the date
@@ -136,7 +139,7 @@ router.get('/hours/', function(req,res){
 	var diningHours = {
 		"covel": [],
 		"deneve": [],
-		"feast": [],
+		"feastatrieber": [],
 		"bruinplate": [],
 		"bruincafe": [],
 		"cafe1919": [],
@@ -171,7 +174,7 @@ router.get('/hours/', function(req,res){
 				switch(i) {
 					case 0: diningName = "covel"; break;
 					case 1: diningName = "deneve"; break;
-					case 2: diningName = "feast"; break;
+					case 2: diningName = "feastatrieber"; break;
 					case 3: diningName = "bruinplate"; break;
 					case 4: diningName = "bruincafe"; break;
 					case 5: diningName = "cafe1919"; break;
@@ -188,7 +191,8 @@ router.get('/hours/', function(req,res){
 					n = n.next();
 				}
 
-				// console.log(diningHours[diningName]);
+				console.log(diningName);
+				console.log(diningHours);
 
 				var hall = new hourSchema({
 					name: diningName,
