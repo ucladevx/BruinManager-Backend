@@ -254,13 +254,11 @@ router.get('/hours/:diningHall', function(req,res){
 
 /**** Notes ****/
 
-// TODO: Broken
-// TODO: Test all notes routes
-// return array of a user's notes
-// move notes routes to one file
-router.get('/notes/:userName', (req,res) =>{
+// return array of a user's notes with their userID
+// move notes routes to one file?
+router.get('/notes/:userID', (req,res) =>{
 
-	userSchema.findOne({ "name" : req.params.userName })
+	userSchema.findOne({ "user_id" : req.params.userID })
 		.then((user) => {
 			res.send(user.notes);
 		})
@@ -270,8 +268,9 @@ router.get('/notes/:userName', (req,res) =>{
 })
 
 // delete given index in note array
-router.get('/notes/delete/:userName/:noteNumber', (req,res) => {
-	userSchema.findOne({ "user_id" : req.params.username })
+// keep index in frontend so you know what index to pass to the request
+router.get('/notes/delete/:userID/:noteNumber', (req,res) => {
+	userSchema.findOne({ "user_id" : req.params.userID })
 		.then((user) => {
 			var index = parseInt(req.params.noteNumber);
 			if(index < user.notes.length && index >= 0){
@@ -288,6 +287,7 @@ router.get('/notes/delete/:userName/:noteNumber', (req,res) => {
 		})
 });
 /**** Notes ****/
+
 /**** Twilio ****/
 
 // TODO: need to continuously check if its the pass time
