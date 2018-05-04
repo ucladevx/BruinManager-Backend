@@ -22,71 +22,59 @@ const noteSchema = mongoose.model('noteSchema');
 
 /**** Schemas ****/
 
-// TODO: only create if ID doesn't exist in db
+// creates a document in db for a new user on first login
+// saves user_id provided by login service, name, and email
+// this document will later be updated with classes when /user is posted to
 router.post('/userID', function(req, res){
 
-	var p = new userSchema({
-		user_id: req.body.user_id,
-		name: req.body.name,
-		email: req.body.email,
-	});
+  // save user login info if they don't exist in db
+  userSchema.find({user_id: req.body.user_id}).then((user) => {
+    if(user.length){
+      res.send("user already exists");
+    }
+    else {
+      var p = new userSchema({
+      	user_id: req.body.user_id,
+      	name: req.body.name,
+      	email: req.body.email,
+      });
 
-	p.save();
-	res.send("posted user credentials");
+      p.save();
+      res.send("saved new user data");
+    }
+  });
 });
 
-// post a user's data to save in database
-//TODO: check if user exists and if they're posting new data, then upate db
+// post a user's class/enrollment data to save in database
+// user should already have an object in the db, either add classes/enrollment or update it
 router.post('/user', function(req, res){
 
-	var id = req.body.user_id;					// find schema to update with this value
+  // create the user object complete with class and enrollment data
+	var id = req.body.user_id;
 	var classes = req.body.classes;
 	var classArr = [];
 
-    // userSchema.find({user_id : id}, function (err, docs) {
-    //     if (!docs.length){
-            // next();
-	    	for(var i = 0; i < classes.length; i++){
-				var addC = new classSchema(classes[i]);
-				classArr.push(addC);
-			}
+  var enrollments = new enrollmentSchema(req.body.enrollment);
 
-			var enrollments = new enrollmentSchema(req.body.enrollment);
+  var p = {
+    user_id: req.body.user_id,
+    name: req.body.name,
+    email: req.body.email,
+    classes: {classes},
+    enrollment:{enrollments},
+    notes: []					// user has no notes to start with
+  };
 
-			var p = new userSchema({
-				user_id: req.body.user_id,
-				name: req.body.name,
-				email: req.body.email,
-				classes: {classes},
-				enrollment:{enrollments},
-				notes: []					// user has no notes to start with
-			});
+  // update the schema that already exists, as it should have been created with a post to /userID
+  userSchema.findOneAndUpdate({user_id: req.body.user_id}, p, {upsert:true}, function(err, doc){
 
-			p.save();
-			res.send("posted");
-    //     }else{
-    //         res.send('user exists: ', req.body.name);
-    //     }
-    // });
-
-	// for(var i = 0; i < classes.length; i++){
-	// 	var addC = new classSchema(classes[i]);
-	// 	classArr.push(addC);
-	// }
-
-	// var enrollments = new enrollmentSchema(req.body.enrollment);
-
-	// var p = new userSchema({
-	// 	user_id: req.body.user_id,
-	// 	name: req.body.name,
-	// 	email: req.body.email,
-	// 	classes: {classes},
-	// 	enrollment:{enrollments},
-	// 	notes: []					// user has no notes to start with
-	// });
-
-	// p.save();
-	// res.send("posted");
+      if(err){
+        res.send(err);
+      }
+      else {
+        res.send("updated user data");
+      }
+  });
 });
 
 /**** Notes ****/
@@ -105,7 +93,6 @@ router.post('/notes/:userID', (req,res) =>{
 	userSchema.findOne({ "user_id" : req.params.userID })
 		.then((user) => {
 			user.notes.push(newNote);
-			// console.log(user.notes);
 			user.save();
 			res.send(newNote);
 		})
@@ -116,10 +103,10 @@ router.post('/notes/:userID', (req,res) =>{
 });
 
 // save a user's phone number
-router.post('/phonenumber/:userName', (req,res) => {
+router.post('/phonenumber/:userID', (req,res) => {
 	var number = req.body.number;
 
-	userSchema.update({ "user_id" : req.params.username }, { $set: { phone_number: number }}, function(err,number){
+	userSchema.update({ "user_id" : req.params.userID }, { $set: { phone_number: number }}, function(err,number){
 		if (err) console.log(err);
   		res.send(number);
 	});
@@ -128,7 +115,7 @@ router.post('/phonenumber/:userName', (req,res) => {
 
 // TODO: Use update, not save
 // update given index in note array
-router.post('/notes/update/:userName/:noteNumber', (req,res) => {
+router.post('/notes/update/:userID/:noteNumber', (req,res) => {
 
 	var note = req.body.note;
 	var date = new Date();
@@ -138,7 +125,7 @@ router.post('/notes/update/:userName/:noteNumber', (req,res) => {
 		date: date
 	});
 
-	userSchema.findOne({ "user_id" : req.params.username })
+	userSchema.findOne({ "user_id" : req.params.userID })
 		.then((user) => {
 			var index = parseInt(req.params.noteNumber);
 			if(index < user.notes.length && index >= 0){

@@ -116,11 +116,10 @@ router.get('/events/:dateID', function(req, res){
 /**** Mappening ****/
 /**** Dining Menus ****/
 
-// TODO: Scrape once per day
+// TODO: Scrape once per day by making /hours a function and setting an interval
 // request a dining hall name, return hours open for each meal period
 
 //TODO: If closed for the whole day, doesnt scrape, create empty object and push to mlabs
-
 router.get('/hours/', function(req,res){
 
 	var d = new Date();			//Get the date
@@ -209,8 +208,7 @@ router.get('/hours/', function(req,res){
 		});
 });
 
-// TODO: Theres a BUGGGG related to above
-// TODO: Logic of determining/returning correct time is off
+// TODO: if closed, return when next open and combine times if open for a large block of time, like the study at night
 router.get('/hours/:diningHall', function(req,res){
 
 	var name = req.params.diningHall;
