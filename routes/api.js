@@ -116,11 +116,12 @@ router.get('/events/:dateID', function(req, res){
 /**** Mappening ****/
 /**** Dining Menus ****/
 
-// TODO: Scrape once per day by making /hours a function and setting an interval
-// request a dining hall name, return hours open for each meal period
+// scrapes dining data every 12 hours, // TODO: see if we can do every 24 hrs
+setInterval(scrapeDining, 43200000);
 
 //TODO: If closed for the whole day, doesnt scrape, create empty object and push to mlabs
-router.get('/hours/', function(req,res){
+	// fix by making all fields "closed"
+function scrapeDining(){
 
 	var d = new Date();			//Get the date
 	var day = d.getDay();		//Day format: Sunday - Saturday -> 0 - 6
@@ -189,26 +190,30 @@ router.get('/hours/', function(req,res){
 					n = n.next();
 				}
 
-				console.log(diningName);
-				console.log(diningHours);
-
-				var hall = new hourSchema({
+				var hall = {
 					name: diningName,
 					hours: diningHours[diningName]
-				});
+				};
 
-				hall.save();
+				// update the schema that already exists, as it should have been created with a post to /userID
+			 	hourSchema.findOneAndUpdate({name: diningName}, hall, {upsert:true}, function(err, doc){
+			      if(err){
+			        console.log(err);
+			      }
+			      else {
+			        console.log("updated dining hall");
+			      }
+			  });
 			}
-
-			res.send("Saved dining hall data");
+			console.log("Saved dining hall data");
 		})
-
 		.catch((err) => {
 			console.log(err);
 		});
-});
+};
 
 // TODO: if closed, return when next open and combine times if open for a large block of time, like the study at night
+// request a dining hall name, return hours open for each meal period
 router.get('/hours/:diningHall', function(req,res){
 
 	var name = req.params.diningHall;
@@ -225,8 +230,8 @@ router.get('/hours/:diningHall', function(req,res){
 				  var times = hallData.hours[i].split('-');
 
 				  	var r = api_functions.status(times);
-				  	console.log(times);
-				  	console.log(r);
+				  	// console.log(times);
+				  	// console.log(r);
 				  	if(r != -1){				// found an open time
 				  		foodStatus = "OPEN";
 				  		foodClosingTime = r;
