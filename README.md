@@ -25,3 +25,9 @@ heroku config:add TZ="America/Los_Angeles"
 * /api/hours/:diningHall - get hours for each dining hall/togo option for each meal period
 * /api/notes/:userName - return array of user's saved notes
 * /api/notes/delete/:userName/:noteNumber - delete note at specified index of specified user's notes array
+
+###### Docker:
+* Pull
+docker pull taasinsaquib/bhub_backend
+* Run
+docker run -p <port>:3000 -d bhub_backend

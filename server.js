@@ -15,7 +15,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 const keys = require('./config/keys');		// defined in heroku environment
 var configAuth = require('./config/fb');	// auth info
 
-require("./models/user");			// authentication 
+require("./models/user");			// authentication
 
 const accountSchema = mongoose.model('accountSchema');
 

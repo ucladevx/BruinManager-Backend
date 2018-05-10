@@ -44,6 +44,7 @@ router.get('/classes/:userID', function(req, res){
 	userSchema.findOne({ "user_id" : req.params.userID}, 'classes', function (err, classArr) {
 	  	if (err) return handleError(err);
 
+		//TODO: causes crash sometimes on res.send
 		res.send(classArr.classes);
 	});
 });
