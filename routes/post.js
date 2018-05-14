@@ -45,6 +45,8 @@ router.post('/userID', function(req, res){
   });
 });
 
+// TODO: update a note
+
 // post a user's class/enrollment data to save in database
 // user should already have an object in the db, either add classes/enrollment or update it
 router.post('/user', function(req, res){

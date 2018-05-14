@@ -36,6 +36,12 @@ const hourSchema = mongoose.model('hourSchema');
 require("../models/notes");
 const noteSchema = mongoose.model('noteSchema');
 
+require("../models/reminders");
+const reminderSchema = mongoose.model('reminders');
+
+require("../models/userEvents");
+const userEventSchema = mongoose.model('userEvents');
+
 /**** Schemas ****/
 
 // return an array of the user's classes given userID
@@ -117,6 +123,7 @@ router.get('/events/:dateID', function(req, res){
 /**** Mappening ****/
 /**** Dining Menus ****/
 
+// TODO: combine endpoints
 // scrapes dining data every 12 hours, // TODO: see if we can do every 24 hrs
 setInterval(scrapeDining, 43200000);
 
@@ -268,7 +275,7 @@ router.get('/notes/:userID', (req,res) =>{
 		.catch((e) => {
 			console.log(e);
 		})
-})
+});
 
 // delete given index in note array
 // keep index in frontend so you know what index to pass to the request
@@ -290,6 +297,38 @@ router.get('/notes/delete/:userID/:noteNumber', (req,res) => {
 		})
 });
 /**** Notes ****/
+
+/**** Reminders ****/
+
+// return array of a user's reminders with their userID
+router.get('/reminders/:userID', (req,res) =>{
+
+	reminderSchema.findOne({ "user_id" : req.params.userID })
+		.then((reminderObj) => {
+			res.send(reminderObj);
+		})
+		.catch((e) => {
+			console.log(e);
+		})
+});
+
+/**** Reminders ****/
+
+/**** Events ****/
+
+// return array of a user's reminders with their userID
+router.get('/userevents/:userID', (req,res) =>{
+
+	userEventSchema.findOne({ "user_id" : req.params.userID })
+		.then((eventObj) => {
+			res.send(eventObj);
+		})
+		.catch((e) => {
+			console.log(e);
+		})
+});
+
+/**** Events ****/
 
 /**** Twilio ****/
 
