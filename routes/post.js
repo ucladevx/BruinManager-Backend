@@ -20,6 +20,10 @@ const enrollmentSchema = mongoose.model('enrollmentSchema');
 require("../models/notes");
 const noteSchema = mongoose.model('noteSchema');
 
+// reminders
+require("../models/reminders");
+const reminderSchema = mongoose.model('reminders');
+
 /**** Schemas ****/
 
 // creates a document in db for a new user on first login
@@ -44,8 +48,6 @@ router.post('/userID', function(req, res){
     }
   });
 });
-
-// TODO: update a note
 
 // post a user's class/enrollment data to save in database
 // user should already have an object in the db, either add classes/enrollment or update it
@@ -77,6 +79,16 @@ router.post('/user', function(req, res){
         res.send("updated user data");
       }
   });
+
+  // init reminder object to empty for a new user
+  var reminder = new reminderSchema({
+    user_id: req.body.user_id,
+    reminder_arr: [],
+    textAlert: false
+  });
+
+  reminder.save()
+
 });
 
 /**** Notes ****/
@@ -143,6 +155,51 @@ router.post('/notes/update/:userID/:noteNumber', (req,res) => {
 		.catch((e) => {
 			console.log(e);
 			res.send(e);
+		})
+});
+
+/**** Reminders ****/
+// TODO: reminders in reminder_arr not saved in proper format
+// TODO: need to know when to check if the reminder time has come
+// TODO: update reminders with a diff route
+// post a reminder to a user's array
+/*
+req body:
+{
+  text: "" // this is the string that the user wants to be reminded of
+  date: "" // date and time user wants to be alerted
+}
+*/
+router.post('/reminders/:userID', (req,res) =>{
+
+	reminderSchema.findOne({ "user_id" : req.params.userID })
+		.then((reminderObj) => {
+
+        // push new reminder to this array
+        var reminderArr = reminderObj.reminder_arr;
+        var copy = reminderArr;
+
+        var newReminder = {
+          text: req.params.reminderText,
+          date: req.params.date,
+          completed: false
+        }
+
+        // console.log(copy);
+        copy.push(newReminder);
+        // console.log(copy);
+
+        reminderSchema.update({ "user_id" : req.params.userID }, { $set: { reminder_arr: copy }}, function(err, reminderObj){
+
+          if (err)
+            res.send(err);
+
+          res.send("saved reminder");
+        });
+
+		})
+		.catch((e) => {
+      res.send(e);
 		})
 });
 

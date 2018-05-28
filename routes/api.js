@@ -305,7 +305,7 @@ router.get('/reminders/:userID', (req,res) =>{
 
 	reminderSchema.findOne({ "user_id" : req.params.userID })
 		.then((reminderObj) => {
-			res.send(reminderObj);
+			res.send(reminderObj.reminder_arr);
 		})
 		.catch((e) => {
 			console.log(e);

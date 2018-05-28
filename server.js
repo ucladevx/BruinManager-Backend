@@ -70,6 +70,8 @@ app.get('/auth/facebook/callback',
     res.redirect('/');
 });
 
+// TODO: make user_id a req body param for posting data?
+
 // api routes
 app.use('/api', require('./routes/api'));
 
