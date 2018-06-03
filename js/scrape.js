@@ -14,7 +14,12 @@ function scrape_food(){
 }
 
 function scrape_libraries(){
+	  var lib_shell = new PythonShell('/python/food.py', { mode: 'text'});
 
+  // received a message sent from the Python script (a simple "print" statement)
+  lib_shell.on('message', function (message) {
+    console.log(message);
+  });
 }
 
 function scrape_diningHalls(){
