@@ -29,14 +29,14 @@ soup = BeautifulSoup(page, 'html.parser')
 
 #box = soup.find('tr', attrs={'class': 'even'})
 
-#Function to add data to dictionary 
+#Function to add data to dictionary
 def addData(obj):
     obj2 = obj.find_all('td')
     title = obj2[0].text.strip()
 
     #Create empty array to hold times; indices starting from Sunday - Saturday
     days = []
-        
+
     #Iterate through indices 1 - 7 to obtain times
     try:
         for i in range(1,7):
@@ -58,7 +58,7 @@ for box2 in soup.find_all('tr', attrs={'class': 'even'}):
 
     except Exception as e:
         print("Error in scraping: " + str(e))
- 
+
 #Scrape libraries by class labeled even
 for box1 in soup.find_all('tr', attrs={'class': 'even'}):
     t = box2.find_all('td')
@@ -71,8 +71,9 @@ for box1 in soup.find_all('tr', attrs={'class': 'even'}):
     except Exception as e:
         print("Error in scraping: " + str(e))
 
-    
+# json_data = json.dumps(data)
+#
+# print(json_data)
 
-json_data = json.dumps(data)
-
-print(json_data)
+with open('scrape_data/lib.txt', 'w') as outfile:
+	json.dump(data, outfile)
