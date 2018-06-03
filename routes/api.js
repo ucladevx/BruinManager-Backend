@@ -199,12 +199,18 @@ function scrapeDining(){
 					n = n.next();
 				}
 
+				// check for empty strings, make them "CLOSED"
+				for(var j = 0; j < 4; j++){
+					if(diningHours[diningName][j] == "")
+						diningHours[diningName][j] = "CLOSED"
+				}
+
 				var hall = {
 					name: diningName,
 					hours: diningHours[diningName]
 				};
 
-				// update the schema that already exists, as it should have been created with a post to /userID
+				// update the schema that already exists
 			 	hourSchema.findOneAndUpdate({name: diningName}, hall, {upsert:true}, function(err, doc){
 			      if(err){
 			        console.log(err);
@@ -214,6 +220,7 @@ function scrapeDining(){
 			      }
 			  });
 			}
+
 			console.log("Saved dining hall data");
 		})
 		.catch((err) => {
@@ -237,10 +244,7 @@ router.get('/hours/:diningHall', function(req,res){
 				 for(var i = 0; i < hallData.hours.length; i++){
 
 				  var times = hallData.hours[i].split('-');
-
 				  	var r = api_functions.status(times);
-				  	// console.log(times);
-				  	// console.log(r);
 				  	if(r != -1){				// found an open time
 				  		foodStatus = "OPEN";
 				  		foodClosingTime = r;
@@ -257,7 +261,7 @@ router.get('/hours/:diningHall', function(req,res){
 				 res.send(r);
 		})
 		.catch((e) => {
-			console.log(e);
+			res.send("Incorrect dining hall name")
 		})
 });
 
@@ -363,7 +367,7 @@ router.get('/alert/:userName', (req,res) => {
 
 /**** Food Scraping ****/
 
-scrape_functions.scrape_food()
+// scrape_functions.scrape_food()
 
 /**** Food Scraping ****/
 
