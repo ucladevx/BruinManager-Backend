@@ -23,7 +23,8 @@ for n in range(1, 5):
 		cols = [ele.text.strip() for ele in cols]
 		data.append([ele for ele in cols if ele])
 
-print(data)
+# send result back to node by printing
+# print(data)
 
-with open('data.txt', 'w') as outfile:
+with open('scrape_data/food.txt', 'w') as outfile:
 	json.dump(data, outfile)

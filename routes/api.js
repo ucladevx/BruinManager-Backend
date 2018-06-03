@@ -11,6 +11,7 @@ var twilio = require('twilio');
 
 // functions called by API endpoints
 const api_functions = require('../js/api_functions');
+const scrape_functions = require('../js/scrape');
 
 /**** API Functions ****/
 
@@ -360,6 +361,11 @@ router.get('/alert/:userName', (req,res) => {
 		})
 });
 
+/**** Food Scraping ****/
+
+scrape_functions.scrape_food()
+
+/**** Food Scraping ****/
 
 //Twilio API
 //Twilio Phone Number (747) 233-1904
