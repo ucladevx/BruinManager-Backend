@@ -1,5 +1,5 @@
 #Import libraries
-import urllib2
+import urllib
 import traceback
 import json
 from bs4 import BeautifulSoup
@@ -22,7 +22,7 @@ libraries = ['Arts Library', 'Biomedical Library', 'East Asian Library', 'Law Li
 uri = "https://www.library.ucla.edu/hours"
 
 #Query the website and return the html
-page = urllib2.urlopen(uri)
+page = urllib.urlopen(uri)
 
 #Parse the html using beautiful soup
 soup = BeautifulSoup(page, 'html.parser')

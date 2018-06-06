@@ -26,4 +26,4 @@ function scrape_diningHalls(){
 
 }
 
-module.exports = {scrape_food, scrape_food, scrape_diningHalls}
+module.exports = {scrape_food, scrape_libraries, scrape_diningHalls}
